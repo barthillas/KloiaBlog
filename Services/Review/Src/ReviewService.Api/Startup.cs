@@ -11,6 +11,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiBase.Middlewares;
+using Data.UnitOfWork;
+using Microsoft.AspNet.OData.Extensions;
+using Microsoft.EntityFrameworkCore;
+using ReviewService.Api.Helpers;
+using ReviewService.Domain.Entities;
+using ReviewService.Infrastructure.Context;
 
 namespace ReviewService.Api
 {
@@ -25,13 +32,21 @@ namespace ReviewService.Api
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-
+        { 
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReviewService.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Article.Api", Version = "v1" });
             });
+            
+            
+            services.AddDbContext<ReviewDbContext>(opt =>
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+            );
+            services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+            services.AddOData();
+            services.AddMvc(option => option.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,15 +56,20 @@ namespace ReviewService.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ReviewService.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "Article.Api v1"));
             }
-
-            app.UseHttpsRedirection();
-
+        
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+            app.UseMvc(p =>
+            {
+                p.EnableDependencyInjection();
+                p.Select().Expand().Count().Filter().OrderBy().MaxTop(100).SkipToken().Build();
+                p.MapODataServiceRoute("odata", "api", EdmReview.GetEdmModel());
+            });
             app.UseRouting();
 
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

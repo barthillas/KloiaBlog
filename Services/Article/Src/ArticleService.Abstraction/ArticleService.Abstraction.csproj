@@ -4,4 +4,15 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Command" />
+      <Folder Include="Enum" />
+      <Folder Include="Query" />
+      <Folder Include="Validation" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Review\Src\ReviewService.Abstraction\ReviewService.Abstraction.csproj" />
+    </ItemGroup>
+
 </Project>
