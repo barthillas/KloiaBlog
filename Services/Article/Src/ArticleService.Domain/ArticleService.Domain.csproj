@@ -4,4 +4,9 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Infrastructure\Abstraction\Abstraction.csproj" />
+      <ProjectReference Include="..\..\..\..\Infrastructure\Data\Data.csproj" />
+    </ItemGroup>
+
 </Project>
