@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArticleService.Api", "Servi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReviewService.Api", "Services\Review\Src\ReviewService.Api\ReviewService.Api.csproj", "{5EC6BC7D-5F38-418C-AB0B-FE09BA2C034B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstraction", "Infrastructure\Abstraction\Abstraction.csproj", "{51F8DA6F-753C-4821-91BB-9580E273CC07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{5EC6BC7D-5F38-418C-AB0B-FE09BA2C034B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EC6BC7D-5F38-418C-AB0B-FE09BA2C034B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EC6BC7D-5F38-418C-AB0B-FE09BA2C034B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51F8DA6F-753C-4821-91BB-9580E273CC07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51F8DA6F-753C-4821-91BB-9580E273CC07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51F8DA6F-753C-4821-91BB-9580E273CC07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51F8DA6F-753C-4821-91BB-9580E273CC07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,6 +135,7 @@ Global
 		{1F01E79A-1301-4D69-9692-B85A1D8E091A} = {A69129D2-3CCB-4AD1-B66F-053D9F70BA3D}
 		{69DF5470-2E5F-47B0-8BEB-11542473B515} = {ABD52290-6261-48BF-AA7B-C52BED9C46CE}
 		{5EC6BC7D-5F38-418C-AB0B-FE09BA2C034B} = {3E295ECE-9264-4A7E-B9D4-2443D8C0D959}
+		{51F8DA6F-753C-4821-91BB-9580E273CC07} = {A69129D2-3CCB-4AD1-B66F-053D9F70BA3D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C11B2207-01D8-4D1C-BB34-5977546A6891}
