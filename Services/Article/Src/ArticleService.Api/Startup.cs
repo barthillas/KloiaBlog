@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Reflection;
+using ApiBase.HeathCheck;
 using ApiBase.Middlewares;
 using ArticleService.Abstraction.Validation;
 using ArticleService.Api.Helpers;
@@ -43,6 +44,7 @@ namespace ArticleService.Api
             services.AddDbContext<ArticleDbContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
+            services.AddHealthChecks().AddDbContextCheck<ArticleDbContext>();
             services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddOData();
             services.AddCqrs();
@@ -80,6 +82,8 @@ namespace ArticleService.Api
             app.UseRouting();
 
             app.UseAuthorization();
+            
+            app.ConfigureHealthCheck();
             
             app.UseEndpoints(endpoints =>
             {
