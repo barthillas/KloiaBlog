@@ -9,6 +9,9 @@
 
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="FluentValidation" Version="10.3.3" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.3" />
+    <PackageReference Include="MediatR.Extensions.FluentValidation.AspNetCore" Version="1.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.5.10" />
     <PackageReference Include="Microsoft.AspNetCore.OData.Versioning" Version="5.0.0" />
@@ -25,6 +28,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Infrastructure\ApiBase\ApiBase.csproj" />
+    <ProjectReference Include="..\ArticleService.Abstraction\ArticleService.Abstraction.csproj" />
+    <ProjectReference Include="..\ArticleService.Application\ArticleService.Application.csproj" />
     <ProjectReference Include="..\ArticleService.Infrastructure\ArticleService.Infrastructure.csproj" />
   </ItemGroup>
 

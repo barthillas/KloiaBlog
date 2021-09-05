@@ -7,9 +7,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Abstraction.Dto;
 using ApiBase.Controllers;
+using ApiBase.Response;
+using ArticleService.Abstraction.Command;
 using ArticleService.Domain.Entities;
 using ArticleService.Infrastructure.Context;
+using Data.CQRS;
 using Data.UnitOfWork;
+using MediatR;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -18,18 +22,22 @@ using Simple.OData.Client;
 
 namespace ArticleService.Api.Controllers
 {
-    [Route("[controller]")]
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/[controller]")]
     public class ArticleController : ODataControllerBase
     {
         private readonly IUnitOfWork<ArticleDbContext> _unitOfWork;
         private readonly IConfiguration _configuration;
         private readonly ILogger<ArticleController> _logger;
+        private readonly ICommandSender _mediator;
 
-        public ArticleController(ILogger<ArticleController> logger, ArticleDbContext context, IUnitOfWork<ArticleDbContext> unitOfWork, IConfiguration configuration) 
+        public ArticleController(ILogger<ArticleController> logger, ArticleDbContext context, IUnitOfWork<ArticleDbContext> unitOfWork, IConfiguration configuration, ICommandSender mediator) 
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
             _configuration = configuration;
+            _mediator = mediator;
         }
 
         
@@ -52,6 +60,13 @@ namespace ArticleService.Api.Controllers
                 .ConfigureAwait(false);
             
             return Ok(MergeArticleWithReview(articles, await GetReviews().ConfigureAwait(false)));
+        }
+        
+        [HttpPost("Create")]
+        public async Task<Response<Unit>> Create([FromForm] CreateArticleCommand command)
+        {
+            var data = await _mediator.SendAsync(command).ConfigureAwait(false);
+            return ProduceResponse(data);
         }
 
         private async Task<IEnumerable<IDictionary<string, object>>> GetReviews()

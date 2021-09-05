@@ -18,21 +18,21 @@ namespace ArticleService.Domain.Entities
 
         public void Create(string title, string author, string articleContent, DateTime publishDate, short? starCount)
         {
-            this.Title = title;
-            this.Author = author;
-            this.ArticleContent = articleContent;
-            this.PublishDate = publishDate;
-            this.StarCount = starCount;
+            Title = title;
+            Author = author;
+            ArticleContent = articleContent;
+            PublishDate = publishDate;
+            StarCount = starCount;
         }
 
         public void Update(int id, string title, string author, string articleContent, DateTime publishDate, short? starCount)
         {
-            this.ArticleId = id;
-            this.Title = title;
-            this.Author = author;
-            this.ArticleContent = articleContent;
-            this.PublishDate = publishDate;
-            this.StarCount = starCount;
+            ArticleId = id;
+            Title = title;
+            Author = author;
+            ArticleContent = articleContent;
+            PublishDate = publishDate;
+            StarCount = starCount;
         }
     }
 }

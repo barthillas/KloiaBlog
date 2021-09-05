@@ -1,5 +1,7 @@
 using ApiBase.Middlewares;
+using ArticleService.Abstraction.Validation;
 using ArticleService.Api.Helpers;
+using ArticleService.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +10,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNet.OData.Extensions;
+using FluentValidation.AspNetCore;
 using ArticleService.Infrastructure.Context;
+using Data.CQRS;
 using Data.UnitOfWork;
 
 namespace ArticleService.Api
@@ -37,7 +41,15 @@ namespace ArticleService.Api
             );
             services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddOData();
-            services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddCqrs(Configuration);
+            services.AddCqrsExtension(Configuration);
+            services.AddMvc(option => option.EnableEndpointRouting = false).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateArticleCommandValidator>());;
+    
+            
+            
+            
+            
+            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

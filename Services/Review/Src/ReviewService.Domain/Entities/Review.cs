@@ -14,16 +14,16 @@ namespace ReviewService.Domain.Entities
 
         public void Add(int articleId, string reviewer, string reviewContent)
         {
-            this.ArticleId = articleId;
-            this.Reviewer = reviewer;
-            this.ReviewContent = reviewContent;
+            ArticleId = articleId;
+            Reviewer = reviewer;
+            ReviewContent = reviewContent;
         }
 
         public void Update(int reviewId, string reviewer, string reviewContent)
         {
-            this.ReviewId = reviewId;
-            this.Reviewer = reviewer;
-            this.ReviewContent = reviewContent;
+            ReviewId = reviewId;
+            Reviewer = reviewer;
+            ReviewContent = reviewContent;
         }
     }
 }
