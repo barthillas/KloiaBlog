@@ -1,4 +1,6 @@
 using System;
+using System.Net.Http;
+using System.Reflection;
 using ApiBase.Middlewares;
 using ArticleService.Abstraction.Validation;
 using ArticleService.Api.Helpers;
@@ -26,7 +28,7 @@ namespace ArticleService.Api
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -43,19 +45,20 @@ namespace ArticleService.Api
             );
             services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddOData();
-            services.AddCqrs(Configuration);
+            services.AddCqrs();
             services.AddCqrsExtension(Configuration);
             services.AddMvc(option => option.EnableEndpointRouting = false).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateArticleCommandValidator>());;
-            services.AddSingleton(new ODataClient(new ODataClientSettings(new Uri(Configuration["ReviewOdataHost:Url"]))
+            var oDataSettings = new ODataClientSettings(new Uri(Configuration["ReviewOdataHost:Url"]))
             {
                 IgnoreResourceNotFoundException = true,
                 OnTrace = (x, y) => Console.WriteLine(string.Format(x, y)),
-            }));
+            };
             
-            
-            
-            
-            
+            oDataSettings.BeforeRequest += delegate(HttpRequestMessage message)
+            {
+                message.Headers.Add("InboundRequest", Assembly.GetExecutingAssembly().FullName);
+            };
+            services.AddSingleton(new ODataClient(oDataSettings));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

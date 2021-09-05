@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,8 +14,8 @@ using Data.UnitOfWork;
 using MediatR;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Routing;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Simple.OData.Client;
 
 namespace ArticleService.Api.Controllers
@@ -28,19 +26,17 @@ namespace ArticleService.Api.Controllers
     public class ArticleController : ODataControllerBase
     {
         private readonly IUnitOfWork<ArticleDbContext> _unitOfWork;
-        private readonly IConfiguration _configuration;
-        private readonly ILogger<ArticleController> _logger;
         private readonly ICommandSender _mediator;
         private readonly ODataClient _oDataClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         
 
-        public ArticleController(ILogger<ArticleController> logger, ArticleDbContext context, IUnitOfWork<ArticleDbContext> unitOfWork, IConfiguration configuration, ICommandSender mediator, ODataClient oDataClient) 
+        public ArticleController( IUnitOfWork<ArticleDbContext> unitOfWork, ICommandSender mediator, ODataClient oDataClient, IHttpContextAccessor httpContextAccessor) 
         {
-            _logger = logger;
             _unitOfWork = unitOfWork;
-            _configuration = configuration;
             _mediator = mediator;
             _oDataClient = oDataClient;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         
@@ -58,6 +54,12 @@ namespace ArticleService.Api.Controllers
         [EnableQuery]
         public async Task<IActionResult> Get()
         {
+            var isInbound = _httpContextAccessor.HttpContext?.Request.Headers["InboundRequest"].Count;
+            if (isInbound > 0)
+            {
+                return Ok( await _unitOfWork.GetRepository<Article>().CreateQuery().ToListAsync());
+            }
+
             var articles = await _unitOfWork.GetRepository<Article>().CreateQuery().Select(x => new ArticleDto
                     {ArticleId = x.ArticleId, Author = x.Author, ArticleContent = x.ArticleContent}).ToListAsync( new CancellationToken())
                 .ConfigureAwait(false);
@@ -88,6 +90,11 @@ namespace ArticleService.Api.Controllers
 
         private async Task<IEnumerable<IDictionary<string, object>>> GetReviews()
         {
+            var isInbound = _httpContextAccessor.HttpContext?.Request.Headers["InboundRequest"].Count;
+            if (isInbound > 0)
+            {
+                return new List<IDictionary<string, object>>();
+            }
             return await _oDataClient
                 .For("Review")
                 .FindEntriesAsync(new ODataFeedAnnotations()).ConfigureAwait(false);
