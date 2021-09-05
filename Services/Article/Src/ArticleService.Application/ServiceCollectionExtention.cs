@@ -9,11 +9,10 @@ namespace ArticleService.Application
 {
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection AddCqrs(this IServiceCollection services,
-            IConfiguration configuration)
+        public static IServiceCollection AddCqrs(this IServiceCollection services)
         { 
             services.AddMediatR(Assembly.GetExecutingAssembly());
             return services;
         }
-            }
+    }
 }

@@ -1,23 +1,23 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Net.Http;
+using System.Reflection;
 using ApiBase.Middlewares;
+using Data.CQRS;
 using Data.UnitOfWork;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.EntityFrameworkCore;
+using ReviewService.Abstraction.Validation;
 using ReviewService.Api.Helpers;
-using ReviewService.Domain.Entities;
+using ReviewService.Application;
 using ReviewService.Infrastructure.Context;
+using Simple.OData.Client;
 
 namespace ReviewService.Api
 {
@@ -45,7 +45,20 @@ namespace ReviewService.Api
             );
             services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddOData();
-            services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddCqrs();
+            services.AddCqrsExtension(Configuration);
+            services.AddMvc(option => option.EnableEndpointRouting = false).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateReviewCommandValidator>());;
+            var oDataSettings = new ODataClientSettings(new Uri(Configuration["ArticleOdataHost:Url"]))
+            {
+                IgnoreResourceNotFoundException = true,
+                OnTrace = (x, y) => Console.WriteLine(string.Format(x, y)),
+            };
+            
+            oDataSettings.BeforeRequest += delegate(HttpRequestMessage message)
+            {
+                message.Headers.Add("InboundRequest", Assembly.GetExecutingAssembly().FullName);
+            };
+            services.AddSingleton(new ODataClient(oDataSettings));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -54,7 +67,7 @@ namespace ReviewService.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "Article.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "Review.Api v1"));
             }
         
             app.UseMiddleware<ExceptionHandlingMiddleware>();
