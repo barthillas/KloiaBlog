@@ -6,7 +6,7 @@ namespace ApiBase.Response
     {
         public ResponseHeader()
         {
-            this.GlobalId = Guid.NewGuid();
+            GlobalId = Guid.NewGuid();
         }
 
         public Guid GlobalId { get; set; }

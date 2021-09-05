@@ -23,6 +23,8 @@ namespace Data.Repositories
 
             void Add(T entity);
 
+            Task AddAsync(T entity, CancellationToken cancellationToken);
+
             void AddRange(IEnumerable<T> entities);
 
             void Remove(T entity);

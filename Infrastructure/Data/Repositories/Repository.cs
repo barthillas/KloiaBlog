@@ -44,6 +44,11 @@ namespace Data.Repositories
         {
             _entities.Add(entity);
         }
+        
+        public async Task AddAsync(T entity, CancellationToken cancellationToken)
+        {
+            await _entities.AddAsync(entity, cancellationToken).ConfigureAwait(false);
+        }
 
         public void AddRange(IEnumerable<T> entities)
         {

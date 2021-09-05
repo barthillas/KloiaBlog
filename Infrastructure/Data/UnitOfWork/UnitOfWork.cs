@@ -45,7 +45,7 @@ namespace Data.UnitOfWork
 
         public void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
@@ -53,7 +53,7 @@ namespace Data.UnitOfWork
                 }
             }
 
-            this._disposed = true;
+            _disposed = true;
         }
 
         public void Rollback()

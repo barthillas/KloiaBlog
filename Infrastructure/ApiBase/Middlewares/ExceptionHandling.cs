@@ -15,8 +15,8 @@ namespace ApiBase.Middlewares
 
         public ExceptionHandlingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
         {
-            this._next = next;
-            this._logger = loggerFactory.CreateLogger<ExceptionHandlingMiddleware>();
+            _next = next;
+            _logger = loggerFactory.CreateLogger<ExceptionHandlingMiddleware>();
         }
 
         public async Task Invoke(HttpContext context)
@@ -30,12 +30,12 @@ namespace ApiBase.Middlewares
 
             try
             {
-                await this._next(context).ConfigureAwait(false);
+                await _next(context).ConfigureAwait(false);
             }
             catch (Exception exception)
             {
                     await context.HandleExceptionAsync(exception ).ConfigureAwait(false);
-                    this._logger.LogError(exception, context.Request.Path); 
+                    _logger.LogError(exception, context.Request.Path); 
             }
         }
     }
