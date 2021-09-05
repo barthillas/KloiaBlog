@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Abstraction.DDD;
 using Data.Repositories.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
@@ -23,6 +22,11 @@ namespace Data.Repositories
         public T GetById(int id)
         {
             return _entities.Find(id);
+        }
+
+        public async Task<T> GetFirstAsync(Expression<Func<T, bool>> predicate, CancellationToken token = default)
+        {
+            return await _entities.FirstOrDefaultAsync(predicate: predicate, token).ConfigureAwait(false);
         }
 
         public IEnumerable<T> GetAll()

@@ -12,6 +12,7 @@
       <PackageReference Include="MediatR" Version="9.0.0" />
       <PackageReference Include="MediatR.Extensions.FluentValidation.AspNetCore" Version="1.2.0" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+      <PackageReference Include="Simple.OData.Client" Version="5.24.0" />
     </ItemGroup>
 
     <ItemGroup>

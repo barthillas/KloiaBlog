@@ -31,13 +31,16 @@ namespace ArticleService.Api.Controllers
         private readonly IConfiguration _configuration;
         private readonly ILogger<ArticleController> _logger;
         private readonly ICommandSender _mediator;
+        private readonly ODataClient _oDataClient;
+        
 
-        public ArticleController(ILogger<ArticleController> logger, ArticleDbContext context, IUnitOfWork<ArticleDbContext> unitOfWork, IConfiguration configuration, ICommandSender mediator) 
+        public ArticleController(ILogger<ArticleController> logger, ArticleDbContext context, IUnitOfWork<ArticleDbContext> unitOfWork, IConfiguration configuration, ICommandSender mediator, ODataClient oDataClient) 
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
             _configuration = configuration;
             _mediator = mediator;
+            _oDataClient = oDataClient;
         }
 
         
@@ -68,15 +71,17 @@ namespace ArticleService.Api.Controllers
             var data = await _mediator.SendAsync(command).ConfigureAwait(false);
             return ProduceResponse(data);
         }
+        
+        [HttpDelete("Delete")]
+        public async Task<Response<Unit>> Delete([FromForm] DeleteArticleCommand command)
+        {
+            var data = await _mediator.SendAsync(command).ConfigureAwait(false);
+            return ProduceResponse(data);
+        }
 
         private async Task<IEnumerable<IDictionary<string, object>>> GetReviews()
         {
-            var client = new ODataClient(new ODataClientSettings(new Uri(_configuration["ReviewOdataHost:Url"]))
-            {
-                IgnoreResourceNotFoundException = true,
-                OnTrace = (x, y) => Console.WriteLine(string.Format(x, y)),
-            });
-            return await client
+            return await _oDataClient
                 .For("Review")
                 .FindEntriesAsync(new ODataFeedAnnotations()).ConfigureAwait(false);
         }

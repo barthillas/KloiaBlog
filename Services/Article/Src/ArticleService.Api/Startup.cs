@@ -1,3 +1,4 @@
+using System;
 using ApiBase.Middlewares;
 using ArticleService.Abstraction.Validation;
 using ArticleService.Api.Helpers;
@@ -14,6 +15,7 @@ using FluentValidation.AspNetCore;
 using ArticleService.Infrastructure.Context;
 using Data.CQRS;
 using Data.UnitOfWork;
+using Simple.OData.Client;
 
 namespace ArticleService.Api
 {
@@ -44,7 +46,11 @@ namespace ArticleService.Api
             services.AddCqrs(Configuration);
             services.AddCqrsExtension(Configuration);
             services.AddMvc(option => option.EnableEndpointRouting = false).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateArticleCommandValidator>());;
-    
+            services.AddSingleton(new ODataClient(new ODataClientSettings(new Uri(Configuration["ReviewOdataHost:Url"]))
+            {
+                IgnoreResourceNotFoundException = true,
+                OnTrace = (x, y) => Console.WriteLine(string.Format(x, y)),
+            }));
             
             
             

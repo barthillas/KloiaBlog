@@ -14,7 +14,7 @@ namespace Data.Repositories
         public interface IRepository<T> where T : class
         {
             T GetById(int id);
-
+            Task<T> GetFirstAsync(Expression<Func<T, bool>> predicate, CancellationToken token = default);
             IEnumerable<T> GetAll();
 
             Task<IEnumerable<T>> GetAllAsync(CancellationToken token);
