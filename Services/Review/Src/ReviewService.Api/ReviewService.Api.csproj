@@ -11,6 +11,7 @@
     <PackageReference Include="FluentValidation" Version="10.3.3" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
     <PackageReference Include="Simple.OData.Client" Version="5.24.0" />
@@ -20,6 +21,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Infrastructure\ApiBase\ApiBase.csproj" />
     <ProjectReference Include="..\..\..\..\Infrastructure\Data\Data.csproj" />
+    <ProjectReference Include="..\..\..\Article\Src\ArticleService.Abstraction\ArticleService.Abstraction.csproj" />
+    <ProjectReference Include="..\ReviewService.Application\ReviewService.Application.csproj" />
     <ProjectReference Include="..\ReviewService.Infrastructure\ReviewService.Infrastructure.csproj" />
   </ItemGroup>
 
