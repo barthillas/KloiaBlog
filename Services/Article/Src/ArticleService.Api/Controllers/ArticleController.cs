@@ -72,6 +72,7 @@ namespace ArticleService.Api.Controllers
             return Ok(MergeArticleWithReview(articles, await GetReviews().ConfigureAwait(false)));
         }
         
+        [ApiExplorerSettings(IgnoreApi=false)] 
         [HttpPost("Create")]
         public async Task<Response<Unit>> Create([FromForm] CreateArticleCommand command)
         {
@@ -79,6 +80,7 @@ namespace ArticleService.Api.Controllers
             return ProduceResponse(data);
         }
         
+        [ApiExplorerSettings(IgnoreApi=false)] 
         [HttpDelete("Delete")]
         public async Task<Response<Unit>> Delete([FromForm] DeleteArticleCommand command)
         {
@@ -86,6 +88,7 @@ namespace ArticleService.Api.Controllers
             return ProduceResponse(data);
         }
         
+        [ApiExplorerSettings(IgnoreApi=false)] 
         [HttpPut("Update")]
         public async Task<Response<Unit>> Update([FromForm] UpdateArticleCommand command)
         {
