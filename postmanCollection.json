@@ -10,17 +10,17 @@
       "id": "03e60ecf-2aa7-45d1-90bc-9ddc152fa009",
       "request": {
         "method": "GET",
-        "header": [ ],
+        "header": [],
         "url": "https://localhost:5001/api/Articles(2)"
       },
-      "response": [ ]
+      "response": []
     },
     {
       "name": "GetArticles",
       "id": "7afc8757-51f3-47e9-9fcb-6a06e450600f",
       "request": {
         "method": "GET",
-        "header": [ ],
+        "header": [],
         "url": {
           "raw": "https://localhost:5001/api/Articles",
           "protocol": "https",
@@ -56,14 +56,14 @@
           ]
         }
       },
-      "response": [ ]
+      "response": []
     },
     {
       "name": "CreateArticle",
       "id": "bad9f87e-81c0-4045-8da6-7bb3b8e6eccb",
       "request": {
         "method": "POST",
-        "header": [ ],
+        "header": [],
         "body": {
           "mode": "formdata",
           "formdata": [
@@ -135,14 +135,14 @@
           ]
         }
       },
-      "response": [ ]
+      "response": []
     },
     {
       "name": "CreateReview",
       "id": "b5b787ce-dc20-475c-acc5-532df402d0b4",
       "request": {
         "method": "POST",
-        "header": [ ],
+        "header": [],
         "body": {
           "mode": "formdata",
           "formdata": [
@@ -211,14 +211,14 @@
           ]
         }
       },
-      "response": [ ]
+      "response": []
     },
     {
       "name": "DeleteArticle",
       "id": "d19715bb-05f8-437f-a2e2-d22dfc4e3ce0",
       "request": {
         "method": "DELETE",
-        "header": [ ],
+        "header": [],
         "body": {
           "mode": "formdata",
           "formdata": [
@@ -270,14 +270,14 @@
           ]
         }
       },
-      "response": [ ]
+      "response": []
     },
     {
       "name": "DeleteReview",
       "id": "2433996f-ebd3-4ee6-983b-f9528fd836ee",
       "request": {
         "method": "DELETE",
-        "header": [ ],
+        "header": [],
         "body": {
           "mode": "formdata",
           "formdata": [
@@ -324,14 +324,14 @@
           ]
         }
       },
-      "response": [ ]
+      "response": []
     },
     {
       "name": "UpdateArticle",
       "id": "0c59db6d-9da2-44e3-a7d1-49c470ac3852",
       "request": {
         "method": "PUT",
-        "header": [ ],
+        "header": [],
         "body": {
           "mode": "formdata",
           "formdata": [
@@ -408,14 +408,14 @@
           ]
         }
       },
-      "response": [ ]
+      "response": []
     },
     {
       "name": "UpdateReview",
       "id": "2e367c56-341b-47aa-b011-46ef0f77792c",
       "request": {
         "method": "PUT",
-        "header": [ ],
+        "header": [],
         "body": {
           "mode": "formdata",
           "formdata": [
@@ -490,34 +490,34 @@
           ]
         }
       },
-      "response": [ ]
+      "response": []
     },
     {
       "name": "GetReview",
       "id": "e755d1d2-9744-424a-b90b-ce149b4c2e19",
       "request": {
         "method": "GET",
-        "header": [ ],
+        "header": [],
         "url": "https://localhost:5011/api/Reviews(2)"
       },
-      "response": [ ]
+      "response": []
     },
     {
       "name": "Reviews metadata",
       "id": "eb2cf23f-74d0-41cf-b7f7-ec2194d71b4b",
       "request": {
         "method": "GET",
-        "header": [ ],
+        "header": [],
         "url": "https://localhost:5011/api/$metadata#Reviews"
       },
-      "response": [ ]
+      "response": []
     },
     {
       "name": "GetReviews",
       "id": "5302f0bd-be79-420c-8a1b-a87033cc48bc",
       "request": {
         "method": "GET",
-        "header": [ ],
+        "header": [],
         "url": {
           "raw": "https://localhost:5011/api/Reviews",
           "protocol": "https",
@@ -553,7 +553,17 @@
           ]
         }
       },
-      "response": [ ]
+      "response": []
+    },
+    {
+      "name": "Articles metadata",
+      "id": "d6a04487-3f2d-4e77-a20c-6983f5fcd6c2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://localhost:5001/api/$metadata#Articles"
+      },
+      "response": []
     }
   ]
 }
