@@ -1,0 +1,559 @@
+{
+  "info": {
+    "_postman_id": "0348533e-854b-4a4d-96b7-bd1e3c72a540",
+    "name": "Kloia",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GetArticle",
+      "id": "03e60ecf-2aa7-45d1-90bc-9ddc152fa009",
+      "request": {
+        "method": "GET",
+        "header": [ ],
+        "url": "https://localhost:5001/api/Articles(2)"
+      },
+      "response": [ ]
+    },
+    {
+      "name": "GetArticles",
+      "id": "7afc8757-51f3-47e9-9fcb-6a06e450600f",
+      "request": {
+        "method": "GET",
+        "header": [ ],
+        "url": {
+          "raw": "https://localhost:5001/api/Articles",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "5001",
+          "path": [
+            "api",
+            "Articles"
+          ],
+          "query": [
+            {
+              "key": "Author",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "ArticleContent",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "PublishDate",
+              "value": "12/12/2011",
+              "disabled": true
+            },
+            {
+              "key": "Title",
+              "value": "test",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": [ ]
+    },
+    {
+      "name": "CreateArticle",
+      "id": "bad9f87e-81c0-4045-8da6-7bb3b8e6eccb",
+      "request": {
+        "method": "POST",
+        "header": [ ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "Author",
+              "value": "rer",
+              "type": "text"
+            },
+            {
+              "key": "ArticleContent",
+              "value": "erer",
+              "type": "text"
+            },
+            {
+              "key": "StarCount",
+              "value": "12",
+              "type": "text"
+            },
+            {
+              "key": "PublishDate",
+              "value": "12/12/2011",
+              "type": "text"
+            },
+            {
+              "key": "title",
+              "value": "title",
+              "type": "text"
+            }
+          ],
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:5001/api/article/create",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "5001",
+          "path": [
+            "api",
+            "article",
+            "create"
+          ],
+          "query": [
+            {
+              "key": "Author",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "ArticleContent",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "PublishDate",
+              "value": "12/12/2011",
+              "disabled": true
+            },
+            {
+              "key": "Title",
+              "value": "test",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": [ ]
+    },
+    {
+      "name": "CreateReview",
+      "id": "b5b787ce-dc20-475c-acc5-532df402d0b4",
+      "request": {
+        "method": "POST",
+        "header": [ ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "Reviewer",
+              "value": "Reviewer11",
+              "type": "text"
+            },
+            {
+              "key": "ArticleId",
+              "value": "4",
+              "type": "text"
+            },
+            {
+              "key": "ReviewContent",
+              "value": "Review Content must not be empty.",
+              "type": "text"
+            },
+            {
+              "key": "PublishDate",
+              "value": "12/12/2011",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "title",
+              "value": "title",
+              "type": "text",
+              "disabled": true
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://localhost:5011/api/review/create",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "5011",
+          "path": [
+            "api",
+            "review",
+            "create"
+          ],
+          "query": [
+            {
+              "key": "Author",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "ArticleContent",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "PublishDate",
+              "value": "12/12/2011",
+              "disabled": true
+            },
+            {
+              "key": "Title",
+              "value": "test",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": [ ]
+    },
+    {
+      "name": "DeleteArticle",
+      "id": "d19715bb-05f8-437f-a2e2-d22dfc4e3ce0",
+      "request": {
+        "method": "DELETE",
+        "header": [ ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "ArticleId",
+              "value": "2",
+              "type": "text"
+            }
+          ],
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:5001/api/Article/Delete",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "5001",
+          "path": [
+            "api",
+            "Article",
+            "Delete"
+          ],
+          "query": [
+            {
+              "key": "Author",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "ArticleContent",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "PublishDate",
+              "value": "12/12/2011",
+              "disabled": true
+            },
+            {
+              "key": "Title",
+              "value": "test",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": [ ]
+    },
+    {
+      "name": "DeleteReview",
+      "id": "2433996f-ebd3-4ee6-983b-f9528fd836ee",
+      "request": {
+        "method": "DELETE",
+        "header": [ ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "ReviewId",
+              "value": "2",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://localhost:5011/api/Review/Delete",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "5011",
+          "path": [
+            "api",
+            "Review",
+            "Delete"
+          ],
+          "query": [
+            {
+              "key": "Author",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "ArticleContent",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "PublishDate",
+              "value": "12/12/2011",
+              "disabled": true
+            },
+            {
+              "key": "Title",
+              "value": "test",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": [ ]
+    },
+    {
+      "name": "UpdateArticle",
+      "id": "0c59db6d-9da2-44e3-a7d1-49c470ac3852",
+      "request": {
+        "method": "PUT",
+        "header": [ ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "ArticleId",
+              "value": "2",
+              "type": "text"
+            },
+            {
+              "key": "Title",
+              "value": "aaaaa",
+              "type": "text"
+            },
+            {
+              "key": "Author",
+              "value": "aaaaa",
+              "type": "text"
+            },
+            {
+              "key": "StarCount",
+              "value": "5",
+              "type": "text"
+            },
+            {
+              "key": "PublishDate",
+              "value": "12.13.2222",
+              "type": "text"
+            },
+            {
+              "key": "ArticleContent",
+              "value": "new content",
+              "type": "text"
+            }
+          ],
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:5001/api/Article/Update",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "5001",
+          "path": [
+            "api",
+            "Article",
+            "Update"
+          ],
+          "query": [
+            {
+              "key": "Author",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "ArticleContent",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "PublishDate",
+              "value": "12/12/2011",
+              "disabled": true
+            },
+            {
+              "key": "Title",
+              "value": "test",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": [ ]
+    },
+    {
+      "name": "UpdateReview",
+      "id": "2e367c56-341b-47aa-b011-46ef0f77792c",
+      "request": {
+        "method": "PUT",
+        "header": [ ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "Reviewer",
+              "value": "George Bush",
+              "type": "text"
+            },
+            {
+              "key": "ReviewId",
+              "value": "2",
+              "type": "text"
+            },
+            {
+              "key": "ReviewContent",
+              "value": "How well defined end points are they ",
+              "type": "text"
+            },
+            {
+              "key": "ReviewContent",
+              "value": "5",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "PublishDate",
+              "value": "12.13.2222",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "ArticleContent",
+              "value": "new content",
+              "type": "text",
+              "disabled": true
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://localhost:5011/api/Review/Update",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "5011",
+          "path": [
+            "api",
+            "Review",
+            "Update"
+          ],
+          "query": [
+            {
+              "key": "Author",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "ArticleContent",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "PublishDate",
+              "value": "12/12/2011",
+              "disabled": true
+            },
+            {
+              "key": "Title",
+              "value": "test",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": [ ]
+    },
+    {
+      "name": "GetReview",
+      "id": "e755d1d2-9744-424a-b90b-ce149b4c2e19",
+      "request": {
+        "method": "GET",
+        "header": [ ],
+        "url": "https://localhost:5011/api/Reviews(2)"
+      },
+      "response": [ ]
+    },
+    {
+      "name": "Reviews metadata",
+      "id": "eb2cf23f-74d0-41cf-b7f7-ec2194d71b4b",
+      "request": {
+        "method": "GET",
+        "header": [ ],
+        "url": "https://localhost:5011/api/$metadata#Reviews"
+      },
+      "response": [ ]
+    },
+    {
+      "name": "GetReviews",
+      "id": "5302f0bd-be79-420c-8a1b-a87033cc48bc",
+      "request": {
+        "method": "GET",
+        "header": [ ],
+        "url": {
+          "raw": "https://localhost:5011/api/Reviews",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "5011",
+          "path": [
+            "api",
+            "Reviews"
+          ],
+          "query": [
+            {
+              "key": "Author",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "ArticleContent",
+              "value": "asdasd",
+              "disabled": true
+            },
+            {
+              "key": "PublishDate",
+              "value": "12/12/2011",
+              "disabled": true
+            },
+            {
+              "key": "Title",
+              "value": "test",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": [ ]
+    }
+  ]
+}
