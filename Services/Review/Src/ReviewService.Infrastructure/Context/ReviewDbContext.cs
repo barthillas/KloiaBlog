@@ -27,7 +27,37 @@ namespace ReviewService.Infrastructure.Context
                 },
                 new Review{
                     ReviewId = 2,
+                    ArticleId = 2, 
+                    Reviewer = "John Doe",
+                    ReviewContent = "OMG perfect!!",
+                },
+                new Review{
+                    ReviewId = 3,
                     ArticleId = 1, 
+                    Reviewer = "John Doe",
+                    ReviewContent = "OMG perfect!!",
+                },
+                new Review{
+                    ReviewId = 4,
+                    ArticleId = 4, 
+                    Reviewer = "John Doe",
+                    ReviewContent = "OMG perfect!!",
+                },
+                new Review{
+                    ReviewId = 5,
+                    ArticleId = 5, 
+                    Reviewer = "John Doe",
+                    ReviewContent = "OMG perfect!!",
+                },
+                new Review{
+                    ReviewId = 6,
+                    ArticleId = 2, 
+                    Reviewer = "John Doe",
+                    ReviewContent = "OMG perfect!!",
+                },
+                new Review{
+                    ReviewId = 7,
+                    ArticleId = 4, 
                     Reviewer = "Jane Doe",
                     ReviewContent = "OMG perfect!!",
                 });

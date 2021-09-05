@@ -4,10 +4,9 @@ There are two microservices on this mono repository.
 
 Each microservice has its own database, MSSql used as DB.
 
-
 To run the project, you just need to run `build.sh` on project root.
 
-If you got an error just manually check and follow the steps bellow.
+If you got an error just manually check and follow the steps below.
 
 
 ```c#
@@ -59,3 +58,4 @@ docker run --name reviewMicroservice -d -p 5011:80 reviewsImage
 
 
 ```
+There is a Postman Collection Schema on the root directory if needed.
