@@ -12,16 +12,16 @@ namespace ReviewService.Domain.Entities
         public string Reviewer { get; set; }
         public string ReviewContent { get; set; }
 
-        public void Add(int articleId, string reviewer, string reviewContent)
+        public void Create(int articleId, string reviewer, string reviewContent)
         {
             ArticleId = articleId;
             Reviewer = reviewer;
             ReviewContent = reviewContent;
         }
 
-        public void Update(int reviewId, string reviewer, string reviewContent)
+        public void Update(int articleId, string reviewer, string reviewContent)
         {
-            ReviewId = reviewId;
+            ArticleId = articleId;
             Reviewer = reviewer;
             ReviewContent = reviewContent;
         }

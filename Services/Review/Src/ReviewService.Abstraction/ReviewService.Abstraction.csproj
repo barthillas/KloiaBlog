@@ -5,10 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Command" />
       <Folder Include="Enum" />
       <Folder Include="Query" />
-      <Folder Include="Validation" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Infrastructure\Abstraction\Abstraction.csproj" />
     </ItemGroup>
 
 </Project>
