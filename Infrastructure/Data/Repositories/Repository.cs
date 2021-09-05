@@ -69,33 +69,10 @@ namespace Data.Repositories
             _entities.RemoveRange(entities);
         }
         
-        public IQueryable<T> CreateQuery(Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
-            bool disableTracking = true) 
+        public IQueryable<T> CreateQuery() 
         {
             var query = _entities.AsQueryable();
-            
-            if (disableTracking)
-            {
-                query = query.AsNoTracking();
-            }
-
-            if (include != null)
-            {
-                query = include(query);
-            }
-
-            if (predicate != null)
-            {
-                query = query.Where(predicate);
-            }
-
-            if (orderBy != null)
-            {
-                query = orderBy(query);
-            }
-
+           
             return query;
         }
 

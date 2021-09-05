@@ -30,10 +30,7 @@ namespace Data.Repositories
             void Remove(T entity);
 
             void RemoveRange(IEnumerable<T> entities);
-            IQueryable<T> CreateQuery(Expression<Func<T, bool>> predicate = null,
-                Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-                Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
-                bool disableTracking = true);
+            IQueryable<T> CreateQuery();
         }
     }
 

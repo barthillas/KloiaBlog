@@ -8,8 +8,7 @@ namespace Data.CQRS
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddCqrsExtension(this IServiceCollection services,
-            IConfiguration configuration)
+        public static IServiceCollection AddCqrsExtension(this IServiceCollection services)
         {
            
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPostProcessorBehavior<,>));

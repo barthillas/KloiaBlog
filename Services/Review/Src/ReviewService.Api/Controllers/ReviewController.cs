@@ -45,13 +45,17 @@ namespace ReviewService.Api.Controllers
         [ODataRoute("Reviews({id})")]
         public async Task<IActionResult> Get([FromODataUri] int id)
         {
-            var reviewDtos = await _unitOfWork.GetRepository<Review>().CreateQuery(x => x.ReviewId == id).Select(x =>
+            var reviewDtos = _unitOfWork.GetRepository<Review>().CreateQuery().Where(x => x.ReviewId == id).Select(x =>
                 new ReviewDto
                 {
                     ArticleId = x.ArticleId, Reviewer = x.Reviewer, ReviewId = x.ReviewId,
                     ReviewContent = x.ReviewContent
-                }).ToListAsync(cancellationToken: new CancellationToken()).ConfigureAwait(false);
-            
+                }).ToList();
+
+            if (!reviewDtos.Any())
+            {
+                return NotFound();
+            }
             return Ok(MergeReviewWithArticle(reviewDtos, await GetArticle().ConfigureAwait(false)));
         }
 
@@ -62,7 +66,7 @@ namespace ReviewService.Api.Controllers
             var isInbound = _httpContextAccessor.HttpContext?.Request.Headers["InboundRequest"].Count;
             if (isInbound > 0)
             {
-                return Ok(await _unitOfWork.GetRepository<Review>().CreateQuery().ToListAsync());
+                return Ok( _unitOfWork.GetRepository<Review>().CreateQuery().ToList());
             }
             var reviews = await _unitOfWork.GetRepository<Review>().CreateQuery().Select(x => new ReviewDto
                     {ArticleId = x.ArticleId, ReviewId = x.ReviewId, Reviewer = x.Reviewer, ReviewContent = x.ReviewContent}).ToListAsync( new CancellationToken())

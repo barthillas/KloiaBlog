@@ -44,10 +44,15 @@ namespace ArticleService.Api.Controllers
         [ODataRoute("Articles({id})")]
         public async Task<IActionResult> Get([FromODataUri] int id)
         {
-            var articles = await _unitOfWork.GetRepository<Article>().CreateQuery(x => x.ArticleId == id).Select(x => new ArticleDto
-                    {ArticleId = x.ArticleId, Author = x.Author, ArticleContent = x.ArticleContent}).ToListAsync( new CancellationToken())
-                .ConfigureAwait(false);
-            return Ok(MergeArticleWithReview(articles, await GetReviews().ConfigureAwait(false)));
+            var articles = _unitOfWork.GetRepository<Article>().CreateQuery().Where(x => x.ArticleId == id).Select(x => new ArticleDto
+                    {ArticleId = x.ArticleId, Author = x.Author, ArticleContent = x.ArticleContent}).ToList();
+            var data = MergeArticleWithReview(articles, await GetReviews().ConfigureAwait(false));
+            if (!data.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(data);
         }
 
         [ODataRoute("Articles")]
@@ -57,11 +62,11 @@ namespace ArticleService.Api.Controllers
             var isInbound = _httpContextAccessor.HttpContext?.Request.Headers["InboundRequest"].Count;
             if (isInbound > 0)
             {
-                return Ok( await _unitOfWork.GetRepository<Article>().CreateQuery().ToListAsync());
+                return Ok( _unitOfWork.GetRepository<Article>().CreateQuery().ToList());
             }
 
             var articles = await _unitOfWork.GetRepository<Article>().CreateQuery().Select(x => new ArticleDto
-                    {ArticleId = x.ArticleId, Author = x.Author, ArticleContent = x.ArticleContent}).ToListAsync( new CancellationToken())
+                    {ArticleId = x.ArticleId, Author = x.Author, ArticleContent = x.ArticleContent}).ToListAsync()
                 .ConfigureAwait(false);
             
             return Ok(MergeArticleWithReview(articles, await GetReviews().ConfigureAwait(false)));

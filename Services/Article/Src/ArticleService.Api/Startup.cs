@@ -46,7 +46,7 @@ namespace ArticleService.Api
             services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddOData();
             services.AddCqrs();
-            services.AddCqrsExtension(Configuration);
+            services.AddCqrsExtension();
             services.AddMvc(option => option.EnableEndpointRouting = false).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateArticleCommandValidator>());;
             var oDataSettings = new ODataClientSettings(new Uri(Configuration["ReviewOdataHost:Url"]))
             {
