@@ -25,9 +25,8 @@ namespace ArticleService.Domain.Entities
             StarCount = starCount;
         }
 
-        public void Update(int id, string title, string author, string articleContent, DateTime publishDate, short? starCount)
+        public void Update(string title, string author, string articleContent, DateTime publishDate, short? starCount)
         {
-            ArticleId = id;
             Title = title;
             Author = author;
             ArticleContent = articleContent;

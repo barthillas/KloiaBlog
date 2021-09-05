@@ -7,6 +7,7 @@ using ArticleService.Domain.Entities;
 using ArticleService.Infrastructure.Context;
 using Data.UnitOfWork;
 using MediatR;
+using static System.DateTime;
 
 namespace ArticleService.Application.CommandHandlers
 {
@@ -22,8 +23,8 @@ namespace ArticleService.Application.CommandHandlers
         public async Task<Unit> Handle(CreateArticleCommand request, CancellationToken cancellationToken)
         {
             var article = new Article();
-            DateTime.TryParse(request.PublishDate, out var publishDate);
-            article.Create(request.Title, request.Author, request.ArticleContent, publishDate, request.StarCount);
+            var tryParse = TryParse(request.PublishDate, out var publishDate);
+            article.Create(request.Title, request.Author, request.ArticleContent, tryParse ? publishDate : new DateTime(), request.StarCount);
             await _unitOfWork.GetRepository<Article>().AddAsync(article, cancellationToken).ConfigureAwait(false);
             await _unitOfWork.Complete(); //TODO move to postProcessor
             return Unit.Value;

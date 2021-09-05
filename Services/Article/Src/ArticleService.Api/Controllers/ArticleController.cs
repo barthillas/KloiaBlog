@@ -78,6 +78,13 @@ namespace ArticleService.Api.Controllers
             var data = await _mediator.SendAsync(command).ConfigureAwait(false);
             return ProduceResponse(data);
         }
+        
+        [HttpPut("Update")]
+        public async Task<Response<Unit>> Update([FromForm] UpdateArticleCommand command)
+        {
+            var data = await _mediator.SendAsync(command).ConfigureAwait(false);
+            return ProduceResponse(data);
+        }
 
         private async Task<IEnumerable<IDictionary<string, object>>> GetReviews()
         {
