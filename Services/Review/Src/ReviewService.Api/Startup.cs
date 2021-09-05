@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Net.Http;
 using System.Reflection;
+using ApiBase.HeathCheck;
 using ApiBase.Middlewares;
 using Data.CQRS;
 using Data.UnitOfWork;
@@ -28,7 +29,7 @@ namespace ReviewService.Api
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -43,6 +44,7 @@ namespace ReviewService.Api
             services.AddDbContext<ReviewDbContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
+            services.AddHealthChecks().AddDbContextCheck<ReviewDbContext>();
             services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddOData();
             services.AddCqrs();
@@ -80,7 +82,7 @@ namespace ReviewService.Api
             app.UseRouting();
 
             app.UseAuthorization();
-            
+            app.ConfigureHealthCheck();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
