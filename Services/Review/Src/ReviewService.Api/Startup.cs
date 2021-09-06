@@ -48,7 +48,6 @@ namespace ReviewService.Api
             services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddOData();
             services.AddCqrs();
-            services.AddCqrsExtension();
             services.AddMvc(option => option.EnableEndpointRouting = false).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateReviewCommandValidator>());;
             var oDataSettings = new ODataClientSettings(new Uri(Configuration["ArticleOdataHost:Url"]))
             {
@@ -77,7 +76,7 @@ namespace ReviewService.Api
             {
                 p.EnableDependencyInjection();
                 p.Select().Expand().Count().Filter().OrderBy().MaxTop(100).SkipToken().Build();
-                p.MapODataServiceRoute("odata", "api", EdmReview.GetEdmModel());
+                p.MapODataServiceRoute("odata", "odata", EdmReview.GetEdmModel());
             });
             app.UseRouting();
 
