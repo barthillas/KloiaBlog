@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Abstraction.Dto;
+using Abstraction.Exceptions;
 using Abstraction.Handler;
 using ArticleService.Abstraction.Command;
 using ArticleService.Domain.Entities;
@@ -16,8 +18,6 @@ namespace ArticleService.Application.CommandHandlers
     {
         private readonly IUnitOfWork<ArticleDbContext> _unitOfWork;
         private readonly ODataClient _oDataClient;
-        
-
         public DeleteArticleCommandHandler(IUnitOfWork<ArticleDbContext> unitOfWork, ODataClient oDataClient)
         {
             _unitOfWork = unitOfWork;
@@ -30,19 +30,19 @@ namespace ArticleService.Application.CommandHandlers
                 .GetFirstAsync(x => x.ArticleId == request.ArticleId, cancellationToken).ConfigureAwait(false);
             if (article == null)
             {
-                throw new Exception($"Record does not exist. ArticleId: {request.ArticleId} ");
+                throw new BusinessException($"Record does not exist. ArticleId: {request.ArticleId} ");
             }
 
-            var reviews = await _oDataClient.For("Review")
-                .FindEntriesAsync(new ODataFeedAnnotations(), cancellationToken).ConfigureAwait(false);
+            var reviewsResponse = await _oDataClient
+                .For<ReviewDto>("Review")
+                .Filter(x => x.ArticleId == request.ArticleId).FindEntriesAsync(cancellationToken);
             
-            if (reviews.Any(x => (int)x["ArticleId"] == article.ArticleId) )
+            if (reviewsResponse.Any(x => x.ArticleId == article.ArticleId) )
             {
-                throw new Exception("It is not possible to delete an article which has reviews");
+                throw new BusinessException("It is not possible to delete an article which has reviews");
             }
 
             _unitOfWork.GetRepository<Article>().Remove(article);
-            await _unitOfWork.Complete(); //TODO move to postProcessor
             return Unit.Value;
         }
     }

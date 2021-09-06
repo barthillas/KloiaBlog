@@ -1,10 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Abstraction.Dto;
+using Abstraction.Exceptions;
 using Abstraction.Handler;
 using Data.UnitOfWork;
-using MediatR;
 using ReviewService.Abstraction.Command;
 using ReviewService.Domain.Entities;
 using ReviewService.Infrastructure.Context;
@@ -12,11 +12,11 @@ using Simple.OData.Client;
 
 namespace ReviewService.Application.CommandHandlers
 {
-    public class CreateReviewCommandHandler : ICommandHandler<CreateReviewCommand, Unit>
+    public class CreateReviewCommandHandler : ICommandHandler<CreateReviewCommand, ReviewDto>
     {
         private readonly IUnitOfWork<ReviewDbContext> _unitOfWork;
         private readonly ODataClient _oDataClient;
-        
+
 
         public CreateReviewCommandHandler(IUnitOfWork<ReviewDbContext> unitOfWork, ODataClient oDataClient)
         {
@@ -24,20 +24,37 @@ namespace ReviewService.Application.CommandHandlers
             _oDataClient = oDataClient;
         }
 
-        public async Task<Unit> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
+        public async Task<ReviewDto> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
         {
             var review = new Review();
-            var article = await _oDataClient.For("Article").FindEntryAsync(cancellationToken);
-                
-            if (!article.Any())
-            {
-                throw new Exception($"Article does not exist. ArticleId: {request.ArticleId}");
-            }
-            review.Create(request.ArticleId, request.Reviewer,request.ReviewContent);
-            await _unitOfWork.GetRepository<Review>().AddAsync(review, cancellationToken).ConfigureAwait(false);
-            await _unitOfWork.Complete(); //TODO move to postProcessor
-            return Unit.Value;
-        }
+            var articleResponse = await _oDataClient
+                .For<ArticleDto>("Article")
+                .Filter(x => x.ArticleId == request.ArticleId).FindEntriesAsync(cancellationToken).ConfigureAwait(false);
+            
+            var articleDto = articleResponse as ArticleDto[] ?? articleResponse.ToArray();
+            if (!articleDto.Any()) throw new BusinessException($"Article does not exist. ArticleId: {request.ArticleId}");
 
+            var article = articleDto.First();
+            review.Create(request.ArticleId, request.Reviewer, request.ReviewContent);
+            await _unitOfWork.GetRepository<Review>().AddAsync(review, cancellationToken).ConfigureAwait(false);
+
+            var result = new ReviewDto
+            {
+                Reviewer = review.Reviewer,
+                ArticleId = review.ArticleId,
+                ReviewContent = review.ReviewContent
+            };
+            if (article != null)
+            {
+                result.Article = new ArticleDto
+                {
+                    ArticleId = article.ArticleId,
+                    Author = article.Author,
+                    ArticleContent = article.ArticleContent,
+                    Title = article.Title
+                };
+            }
+            return result;
+        }
     }
 }

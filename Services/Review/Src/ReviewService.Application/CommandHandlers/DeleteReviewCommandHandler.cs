@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Abstraction.Exceptions;
 using Abstraction.Handler;
 using ReviewService.Abstraction.Command;
 using ReviewService.Domain.Entities;
@@ -30,10 +31,9 @@ namespace ReviewService.Application.CommandHandlers
                 .GetFirstAsync(x => x.ReviewId == request.ReviewId, cancellationToken).ConfigureAwait(false);
             if (review == null)
             {
-                throw new Exception($"Record does not exist. ReviewId: {request.ReviewId} ");
+                throw new BusinessException($"Record does not exist. ReviewId: {request.ReviewId} ");
             }
             _unitOfWork.GetRepository<Review>().Remove(review);
-            await _unitOfWork.Complete(); //TODO move to postProcessor
             return Unit.Value;
         }
     }

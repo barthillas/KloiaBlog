@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Abstraction.Exceptions;
 using Abstraction.Handler;
 using ReviewService.Abstraction.Command;
 using ReviewService.Domain.Entities;
@@ -32,10 +33,9 @@ namespace ReviewService.Application.CommandHandlers
             
             if (review == null)
             {
-                throw new Exception($"Record does not exist. ReviewId: {request.ReviewId} ");
+                throw new BusinessException($"Record does not exist. ReviewId: {request.ReviewId} ");
             }
             review.Update(request.ReviewId, request.Reviewer, request.ReviewContent);
-            await _unitOfWork.Complete(); //TODO move to postProcessor
             return Unit.Value;
         }
     }
