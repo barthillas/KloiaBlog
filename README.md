@@ -46,8 +46,9 @@ dotnet ef database update -c ReviewService.Infrastructure.Context.ReviewDbContex
 cd ../../../../
 
 # build and run docker containers
-cd Services/Article/Src/ArticleService.Api
-docker build -t articlesImage .
+
+docker build -t articlesimage -f Services/Article/Src/ArticleService.Api/Dockerfile .
+
 docker run --name articleMicroservice -d -p 5001:80 articlesImage
 
 cd ../../../../

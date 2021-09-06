@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ArticleService.Api.Controllers
 {
-    public class ArticleODataController : ODataControllerBase
+    public class ArticleODataController : ODataController
     {
         private readonly IUnitOfWork<ArticleDbContext> _unitOfWork;
 

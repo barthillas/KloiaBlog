@@ -9,13 +9,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Autofac" Version="6.2.0" />
-      <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0-preview.1" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.3" />
       <PackageReference Include="MediatR" Version="9.0.0" />
       <PackageReference Include="MediatR.Extensions.FluentValidation.AspNetCore" Version="1.2.0" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
-      <PackageReference Include="Scrutor" Version="3.3.0" />
       <PackageReference Include="Simple.OData.Client" Version="5.24.0" />
     </ItemGroup>
 

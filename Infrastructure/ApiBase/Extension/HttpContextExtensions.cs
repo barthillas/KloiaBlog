@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Net.Mime;
-using System.Text;
 using System.Threading.Tasks;
 using Abstraction.Exceptions;
 using ApiBase.Response;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Formatting = System.Xml.Formatting;
 using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 namespace ApiBase.Extension
@@ -56,7 +56,7 @@ namespace ApiBase.Extension
                 {
                     NamingStrategy = new CamelCaseNamingStrategy(),
                 },
-                Formatting = Formatting.Indented,
+                Formatting = (Newtonsoft.Json.Formatting) Formatting.Indented,
             });
             return context.Response.WriteAsync(responseText);
         }

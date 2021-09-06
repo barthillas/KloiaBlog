@@ -9,7 +9,7 @@ using ReviewService.Infrastructure.Context;
 
 namespace ReviewService.Api.Controllers
 {
-    public class ReviewODataController : ODataControllerBase
+    public class ReviewODataController : ODataController
     {
         private readonly IUnitOfWork<ReviewDbContext> _unitOfWork;
 

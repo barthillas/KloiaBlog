@@ -1,5 +1,4 @@
-﻿using System.Net.Mime;
-using ApiBase.Response;
+﻿using ApiBase.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiBase.Controllers
