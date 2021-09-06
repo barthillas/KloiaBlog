@@ -6,55 +6,116 @@
   },
   "item": [
     {
-      "name": "GetArticle",
-      "id": "03e60ecf-2aa7-45d1-90bc-9ddc152fa009",
+      "name": "Articles metadata",
+      "id": "d6a04487-3f2d-4e77-a20c-6983f5fcd6c2",
       "request": {
         "method": "GET",
         "header": [],
-        "url": "https://localhost:5001/api/Articles(2)"
+        "url": "https://localhost:5001/odata/$metadata#Articles"
       },
       "response": []
     },
     {
-      "name": "GetArticles",
-      "id": "7afc8757-51f3-47e9-9fcb-6a06e450600f",
+      "name": "Reviews metadata",
+      "id": "eb2cf23f-74d0-41cf-b7f7-ec2194d71b4b",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://localhost:5011/api/$metadata#Reviews"
+      },
+      "response": []
+    },
+    {
+      "name": "ODataGetArticles",
+      "id": "b291b194-8223-49de-bdf4-ab023f5452de",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://localhost:5001/odata/Articles"
+      },
+      "response": []
+    },
+    {
+      "name": "ODataGetArticles(2)",
+      "id": "7837c67e-8d6c-416e-8f60-e658b74d2ebe",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://localhost:5001/odata/Articles(2)"
+      },
+      "response": []
+    },
+    {
+      "name": "ODataGetArticlesWithFilter",
+      "id": "c489960f-14b3-4380-a33a-c24f9d962cb6",
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "https://localhost:5001/api/Articles",
+          "raw": "https://localhost:5001/odata/Articles?$filter=Author eq 'Sigmund Freud'",
           "protocol": "https",
           "host": [
             "localhost"
           ],
           "port": "5001",
           "path": [
-            "api",
+            "odata",
             "Articles"
           ],
           "query": [
             {
-              "key": "Author",
-              "value": "asdasd",
-              "disabled": true
-            },
-            {
-              "key": "ArticleContent",
-              "value": "asdasd",
-              "disabled": true
-            },
-            {
-              "key": "PublishDate",
-              "value": "12/12/2011",
-              "disabled": true
-            },
-            {
-              "key": "Title",
-              "value": "test",
-              "disabled": true
+              "key": "$filter",
+              "value": "Author eq 'Sigmund Freud'"
             }
           ]
         }
+      },
+      "response": []
+    },
+    {
+      "name": "ODataGetReviews",
+      "id": "cebcc529-6f5b-4372-a2bb-1d80fa7518d9",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://localhost:5011/odata/Reviews"
+      },
+      "response": []
+    },
+    {
+      "name": "ODataGetReviewsWithFilter",
+      "id": "0738e739-fdd6-48c3-8988-7fb8d92e16c4",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:5011/odata/Reviews?$filter=ArticleId eq 2",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "5011",
+          "path": [
+            "odata",
+            "Reviews"
+          ],
+          "query": [
+            {
+              "key": "$filter",
+              "value": "ArticleId eq 2"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ODataGetReviews(2)",
+      "id": "051f50fd-085c-4344-8527-60fcfa0cb20b",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://localhost:5011/odata/Reviews(2)"
       },
       "response": []
     },
@@ -69,12 +130,12 @@
           "formdata": [
             {
               "key": "Author",
-              "value": "rer",
+              "value": "Gorki",
               "type": "text"
             },
             {
               "key": "ArticleContent",
-              "value": "erer",
+              "value": "Ana",
               "type": "text"
             },
             {
@@ -89,7 +150,7 @@
             },
             {
               "key": "title",
-              "value": "title",
+              "value": "Ana",
               "type": "text"
             }
           ],
@@ -148,17 +209,17 @@
           "formdata": [
             {
               "key": "Reviewer",
-              "value": "Reviewer11",
+              "value": "Hans",
               "type": "text"
             },
             {
               "key": "ArticleId",
-              "value": "4",
+              "value": "3",
               "type": "text"
             },
             {
               "key": "ReviewContent",
-              "value": "Review Content must not be empty.",
+              "value": "Awesome",
               "type": "text"
             },
             {
@@ -227,12 +288,7 @@
               "value": "2",
               "type": "text"
             }
-          ],
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
+          ]
         },
         "url": {
           "raw": "https://localhost:5001/api/Article/Delete",
@@ -365,12 +421,7 @@
               "value": "new content",
               "type": "text"
             }
-          ],
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
+          ]
         },
         "url": {
           "raw": "https://localhost:5001/api/Article/Update",
@@ -489,79 +540,6 @@
             }
           ]
         }
-      },
-      "response": []
-    },
-    {
-      "name": "GetReview",
-      "id": "e755d1d2-9744-424a-b90b-ce149b4c2e19",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": "https://localhost:5011/api/Reviews(2)"
-      },
-      "response": []
-    },
-    {
-      "name": "Reviews metadata",
-      "id": "eb2cf23f-74d0-41cf-b7f7-ec2194d71b4b",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": "https://localhost:5011/api/$metadata#Reviews"
-      },
-      "response": []
-    },
-    {
-      "name": "GetReviews",
-      "id": "5302f0bd-be79-420c-8a1b-a87033cc48bc",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "https://localhost:5011/api/Reviews",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "5011",
-          "path": [
-            "api",
-            "Reviews"
-          ],
-          "query": [
-            {
-              "key": "Author",
-              "value": "asdasd",
-              "disabled": true
-            },
-            {
-              "key": "ArticleContent",
-              "value": "asdasd",
-              "disabled": true
-            },
-            {
-              "key": "PublishDate",
-              "value": "12/12/2011",
-              "disabled": true
-            },
-            {
-              "key": "Title",
-              "value": "test",
-              "disabled": true
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Articles metadata",
-      "id": "d6a04487-3f2d-4e77-a20c-6983f5fcd6c2",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": "https://localhost:5001/api/$metadata#Articles"
       },
       "response": []
     }
