@@ -16,16 +16,8 @@ COPY ["Services/Article/Src/ArticleService.Infrastructure/ArticleService.Infrast
 COPY ["Infrastructure/Abstraction/Abstraction.csproj", "Infrastructure/Abstraction/"]
 COPY ["Infrastructure/ApiBase/ApiBase.csproj", "Infrastructure/ApiBase/"]
 COPY ["Infrastructure/Data/Data.csproj", "Infrastructure/Data/"]
-#RUN dotnet restore "Infrastructure/Abstraction/Abstraction.csproj"
-#RUN dotnet restore "Infrastructure/ApiBase/ApiBase.csproj"
-#RUN dotnet restore "Infrastructure/Data/Data.csproj"
-#RUN dotnet restore "Services/Article/Src/ArticleService.Abstraction/ArticleService.Abstraction.csproj"
-#RUN dotnet restore "Services/Article/Src/ArticleService.Infrastructure/ArticleService.Infrastructure.csproj"
+
 RUN dotnet restore "Services/Article/Src/ArticleService.Api/ArticleService.Api.csproj"
-#RUN dotnet restore "Services/Article/Src/ArticleService.Application/ArticleService.Application.csproj"
-#RUN dotnet restore "Services/Article/Src/ArticleService.Domain/ArticleService.Domain.csproj"
-
-
 
 COPY . .
 WORKDIR "/src/Services/Article/Src/ArticleService.Api"

@@ -48,14 +48,10 @@ cd ../../../../
 # build and run docker containers
 
 docker build -t articlesimage -f Services/Article/Src/ArticleService.Api/Dockerfile .
+docker run --name articlemicroservice -d -p 5001:80 articlesimage
 
-docker run --name articleMicroservice -d -p 5001:80 articlesImage
-
-cd ../../../../
-
-cd Services/Review/Src/ReviewService.Api
-docker build -t reviewsImage .
-docker run --name reviewMicroservice -d -p 5011:80 reviewsImage
+docker build -t reviewsimage -f Services/Review/Src/ReviewService.Api/Dockerfile .
+docker run --name reviewmicroservice -d -p 5011:80 reviewsImage
 
 
 ```
