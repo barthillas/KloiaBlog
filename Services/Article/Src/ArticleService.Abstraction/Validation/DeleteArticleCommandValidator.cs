@@ -8,7 +8,7 @@ namespace ArticleService.Abstraction.Validation
     {
         public DeleteArticleCommandValidator()
         {
-            RuleFor(x => x.ArticleId).NotEmpty();
+            RuleFor(x => x.ArticleId).NotEmpty().GreaterThan(0);
         }
 
     }
