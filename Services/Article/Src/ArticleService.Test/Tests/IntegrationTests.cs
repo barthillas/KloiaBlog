@@ -1,78 +1,134 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
-using ArticleService.Abstraction.Command;
 using ArticleService.Api;
 using ArticleService.Application;
-using ArticleService.Domain.Entities;
 using ArticleService.Infrastructure.Context;
-using Data.CQRS;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using ThrowawayDb;
 using Xunit;
-using Xunit.Abstractions;
 
-namespace ArticleService.UnitTest.Controllers.Tests
+namespace ArticleService.UnitTest.Tests
 {
-    public class IntegrationTest : TestBase.TestBase
+    public class IntegrationTest : IClassFixture<WebApplicationFactory<Startup>>
     {
+        private readonly WebApplicationFactory<Startup> _factory;
+
         private readonly HttpClient _client;
-    
-        public IntegrationTest()
+        public IntegrationTest(WebApplicationFactory<Startup> factory)
         {
-            var appFactory = new WebApplicationFactory<Startup>()
-                .WithWebHostBuilder(builder =>
+            _factory= factory.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureServices(services =>
                 {
-                    builder.ConfigureServices(services =>
+                    var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ArticleDbContext>));
+                    if (descriptor != null)
                     {
-                        var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ArticleDbContext>));
-                        if (descriptor != null)
-                        {
-                            services.Remove(descriptor);
-                        }
-                        services.AddDbContext<ArticleDbContext>(options => { options.UseInMemoryDatabase("TestDb"); });
-                        services.AddCqrs();
-                        services.AddCqrsExtension();
-                    });
+                        services.Remove(descriptor);
+                    }
+                    services.AddDbContext<ArticleDbContext>(options => { options.UseInMemoryDatabase("TestDb"); });
+                    services.AddCqrs();
                 });
-
-            _client = appFactory.CreateClient();
+            });;
+            
+            _client = _factory.CreateClient();
             _client.DefaultRequestHeaders.Add("InboundRequest","test");
-
         }
         
-        [Fact]
-        public async Task Get_ReturnsArticle_WhenArticleExistsInTheDatabase()
+        [Theory]
+        [InlineData("api/Article/Create")]
+        public async Task Create_Article_ShouldSuccess(string url)
         {
-            var request = new CreateArticleCommand { ArticleContent =" ArticleContent", Author ="Author", PublishDate = "12.12.2012", StarCount = 5, Title = "Title" };
-            var aasd = await CreateArticle(request);
-            var response = await _client.GetAsync("api/Articles");
+            _client.DefaultRequestHeaders.Accept.Clear();
+            var multiContent = new MultipartFormDataContent();
+            multiContent.Add(new StringContent( "ArticleContent"), "ArticleContent");
+            multiContent.Add(new StringContent( "Author"), "Author");
+            multiContent.Add(new StringContent( "12.12.2012"), "PublishDate");
+            multiContent.Add(new StringContent( "5"), "StarCount");
+            multiContent.Add(new StringContent( "Title"), "Title");
+
+            var response = await _client.PostAsync(url, multiContent);
+            
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+        
+        [Theory]
+        [InlineData("api/Article/Create")]
+        public async Task Article_Post_ValidationError(string url)
+        {
+            var stringContent = new StringContent(JsonConvert.SerializeObject(new { }), Encoding.UTF8, "application/json");
+
+            var response = await _client.PostAsync(url, new MultipartFormDataContent());
+            
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+        [Theory]
+        [InlineData("api/Article/Update")]
+        public async Task UpdateArticle_ShouldReturn_OK(string url)
+        {
+            _client.DefaultRequestHeaders.Accept.Clear();
+            var multiContent = new MultipartFormDataContent();
+            
+            multiContent.Add(new StringContent( "100000"), "ArticleId");
+            multiContent.Add(new StringContent( "ArticleContent"), "ArticleContent");
+            multiContent.Add(new StringContent( "Author"), "Author");
+            multiContent.Add(new StringContent( "12.12.2012"), "PublishDate");
+            multiContent.Add(new StringContent( "5"), "StarCount");
+            multiContent.Add(new StringContent( "Title"), "Title");
+
+            var response = await _client.PutAsync(url, multiContent);
+            
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+        
+        [Theory]
+        [InlineData("api/Article/Update")]
+        public async Task UpdateArticle_ShouldReturn_BadRequest(string url)
+        {
+            _client.DefaultRequestHeaders.Accept.Clear();
+            var multiContent = new MultipartFormDataContent();
+            
+            multiContent.Add(new StringContent( "100000"), "ArticleId");
+
+            var response = await _client.PutAsync(url, multiContent);
+            
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+        [Theory]
+        [InlineData("api/Article/Update")]
+        public async Task UpdateUnExistArticle_ShouldReturn_UnprocessableEntity(string url)
+        {
+            _client.DefaultRequestHeaders.Accept.Clear();
+            var multiContent = new MultipartFormDataContent();
+            
+            multiContent.Add(new StringContent( "100000"), "ArticleId");
+            multiContent.Add(new StringContent( "ArticleContent"), "ArticleContent");
+            multiContent.Add(new StringContent( "Author"), "Author");
+            multiContent.Add(new StringContent( "12.12.2012"), "PublishDate");
+            multiContent.Add(new StringContent( "5"), "StarCount");
+            multiContent.Add(new StringContent( "Title"), "Title");
+
+            var response = await _client.PutAsync(url, multiContent);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        private async Task<HttpResponseMessage> CreateArticle(CreateArticleCommand request)
+
+        [Theory]
+        [InlineData("/odata")]
+        [InlineData("/odata/articles")]
+        [InlineData("/odata/articles(1)")]
+        public async Task Get(string url)
         {
-            var requestSerializeObject = JsonConvert.SerializeObject(request);
-            var content = new StringContent(requestSerializeObject, Encoding.UTF8, "application/json");
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            return await _client.PostAsync("/api/Article/Create", content);
-        }
-        
-        [Fact]
-        public async Task Get_Articles_ReturnsStatusOk()
-        {
-            var response = await _client.GetAsync("api/articles");
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var client = _factory.CreateClient();
+
+            var response = await client.GetAsync(url);
+
+            Assert.True(response.IsSuccessStatusCode);
         }
     }
 }

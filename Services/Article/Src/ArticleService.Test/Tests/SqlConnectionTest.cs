@@ -4,7 +4,7 @@ using ThrowawayDb;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace ArticleService.UnitTest.Controllers.Tests
+namespace ArticleService.UnitTest.Tests
 {
     public class SqlConnectionTest : TestBase.TestBase
     {

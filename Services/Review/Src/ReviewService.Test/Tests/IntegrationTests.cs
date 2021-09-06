@@ -1,16 +1,13 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Data.CQRS;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using ReviewService.Abstraction.Command;
 using ReviewService.Api;
 using ReviewService.Application;
 using ReviewService.Infrastructure.Context;
@@ -18,50 +15,99 @@ using Xunit;
 
 namespace ReviewService.UnitTest.Tests
 {
-    public class IntegrationTest : TestBase.TestBase
+    public class IntegrationTest : IClassFixture<WebApplicationFactory<Startup>>
     {
+        private readonly WebApplicationFactory<Startup> _factory;
+
         private readonly HttpClient _client;
-    
-        public IntegrationTest()
+        public IntegrationTest(WebApplicationFactory<Startup> factory)
         {
-            var appFactory = new WebApplicationFactory<Startup>()
-                .WithWebHostBuilder(builder =>
+            _factory= factory.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureServices(services =>
                 {
-                    builder.ConfigureServices(services =>
+                    var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ReviewDbContext>));
+                    if (descriptor != null)
                     {
-                        var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ReviewDbContext>));
-                        if (descriptor != null)
-                        {
-                            services.Remove(descriptor);
-                        }
-                        services.AddDbContext<ReviewDbContext>(options => { options.UseInMemoryDatabase("TestDb"); });
-                        services.AddCqrs();
-                        services.AddCqrsExtension();
-                    });
+                        services.Remove(descriptor);
+                    }
+                    services.AddDbContext<ReviewDbContext>(options => { options.UseInMemoryDatabase("TestDb"); });
+                    services.AddCqrs();
                 });
-
-            _client = appFactory.CreateClient();
+            });;
+            
+            _client = _factory.CreateClient();
             _client.DefaultRequestHeaders.Add("InboundRequest","test");
-
         }
         
-        [Fact]
-        public async Task Get_ReturnsReview_WhenReviewExistsInTheDatabase()
+        [Theory]
+        [InlineData("api/Review/Create")]
+        public async Task Create_Review_ShouldSuccess(string url)
         {
-            var request = new CreateReviewCommand { ReviewContent =" ReviewContent", Reviewer = "Reviewer", ArticleId = 12,  };
-            var aasd = await CreateReview(request);
-            var response = await _client.GetAsync("api/Reviews");
+            _client.DefaultRequestHeaders.Accept.Clear();
+            var multiContent = new MultipartFormDataContent();
+            multiContent.Add(new StringContent( "12"), "ReviewId");
+            multiContent.Add(new StringContent( "ReviewContent"), "ReviewContent");
+            multiContent.Add(new StringContent( "Reviewer"), "Reviewer");
+            multiContent.Add(new StringContent( "5"), "ArticleId");
+
+            var response = await _client.PostAsync(url, multiContent);
+            
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
-
-        private async Task<HttpResponseMessage> CreateReview(CreateReviewCommand request)
+        
+        [Theory]
+        [InlineData("api/Review/Create")]
+        public async Task Review_Post_ValidationError(string url)
         {
-            var requestSerializeObject = JsonConvert.SerializeObject(request);
-            var content = new StringContent(requestSerializeObject, Encoding.UTF8, "application/json");
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            return await _client.PostAsync("/api/Review/Create", content);
+            var stringContent = new StringContent(JsonConvert.SerializeObject(new { }), Encoding.UTF8, "application/json");
+
+            var response = await _client.PostAsync(url, new MultipartFormDataContent());
+            
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+        [Theory]
+        [InlineData("api/Review/Update")]
+        public async Task UpdateReview_ShouldReturn_OK(string url)
+        {
+            _client.DefaultRequestHeaders.Accept.Clear();
+            var multiContent = new MultipartFormDataContent();
+            
+            multiContent.Add(new StringContent( "12"), "ReviewId");
+            multiContent.Add(new StringContent( "ReviewContent"), "ReviewContent");
+            multiContent.Add(new StringContent( "Reviewer"), "Reviewer");
+            multiContent.Add(new StringContent( "5"), "ArticleId");
+
+            var response = await _client.PutAsync(url, multiContent);
+            
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
         
-     
+        [Theory]
+        [InlineData("api/Review/Update")]
+        public async Task UpdateReview_ShouldReturn_BadRequest(string url)
+        {
+            _client.DefaultRequestHeaders.Accept.Clear();
+            var multiContent = new MultipartFormDataContent();
+            
+            multiContent.Add(new StringContent( "100000"), "ReviewId");
+
+            var response = await _client.PutAsync(url, multiContent);
+            
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Theory]
+        [InlineData("/odata")]
+        [InlineData("/odata/reviews")]
+        [InlineData("/odata/reviews(1)")]
+        public async Task Get(string url)
+        {
+            var client = _factory.CreateClient();
+
+            var response = await client.GetAsync(url);
+
+            Assert.True(response.IsSuccessStatusCode);
+        }
     }
 }
