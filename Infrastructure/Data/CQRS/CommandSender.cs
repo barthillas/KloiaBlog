@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Abstraction.Command;
@@ -20,7 +21,7 @@ namespace Data.CQRS
             return _mediator.Send(command, cancellationToken);
         }
 
-        public Task SendAsync(ICommand command, CancellationToken cancellationToken = default)
+        public Task SendAsync(Expression command, CancellationToken cancellationToken = default)
         {
             return _mediator.Send(command, cancellationToken);
         }
