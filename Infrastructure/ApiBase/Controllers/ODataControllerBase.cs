@@ -7,10 +7,5 @@ namespace ApiBase.Controllers
 {
     public abstract class ODataControllerBase : ODataController
     {
-        protected Response<TBody> ProduceResponse<TBody>(TBody body)
-        {
-            return Response<TBody>.Success(body);
-        }
-
     }
 }

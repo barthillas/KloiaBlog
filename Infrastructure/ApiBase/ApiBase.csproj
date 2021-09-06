@@ -22,4 +22,8 @@
       <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="5.0.9" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Abstraction\Abstraction.csproj" />
+    </ItemGroup>
+
 </Project>

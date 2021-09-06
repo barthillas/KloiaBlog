@@ -1,13 +1,13 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
-using ApiBase.Middlewares;
-using Microsoft.AspNetCore.Builder;
+using Abstraction.Exceptions;
+using ApiBase.Response;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 namespace ApiBase.Extension
 {
@@ -18,20 +18,39 @@ namespace ApiBase.Extension
         {
             context.Response.ContentType = MediaTypeNames.Application.Json;
 
-            var exceptionMessage = new StringBuilder();
-
-            exceptionMessage.AppendLine(exception.Message);
-            exceptionMessage.AppendLine(exception.StackTrace);
-            while (exception.InnerException != null)
+            var details = exception switch
             {
-                var innerException = exception.InnerException;
-                exceptionMessage.AppendLine(innerException.Message);
-                exceptionMessage.AppendLine(innerException.StackTrace);
-                exception = exception.InnerException;
+                BusinessException ex => new KloiaProblemDetails{
+                    StackTrace = exception.StackTrace,
+                    Message = exception.Message,
+                    Status = StatusCodes.Status422UnprocessableEntity,
+                    Title = "Exception",
+                }, 
+                ValidationException ex => new KloiaProblemDetails{    
+                    StackTrace = exception.StackTrace,
+                    Message = exception.Message,
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "Validation Exception",
+                },             
+                _ => new KloiaProblemDetails
+                {
+                    StackTrace = exception.StackTrace,
+                    Message = exception.Message,
+                    Status = StatusCodes.Status500InternalServerError,
+                    Title = "Unknown Exception",
+                    
+                }            
+            };
 
-            }
+            return ProblemDetailResponseAsync(context, details );
+        }
+        internal static Task ProblemDetailResponseAsync(this HttpContext context, KloiaProblemDetails details)
+        {
+            context.Response.ContentType = MediaTypeNames.Application.Json;
 
-            var responseText = JsonConvert.SerializeObject(exceptionMessage.ToString(), new JsonSerializerSettings
+            var result = Response<KloiaProblemDetails>.Fail(details, details.Status);
+
+            var responseText = JsonConvert.SerializeObject(result, new JsonSerializerSettings
             {
                 ContractResolver = new DefaultContractResolver()
                 {
@@ -39,7 +58,6 @@ namespace ApiBase.Extension
                 },
                 Formatting = Formatting.Indented,
             });
-
             return context.Response.WriteAsync(responseText);
         }
     }

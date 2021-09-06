@@ -6,8 +6,6 @@ namespace ApiBase.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Consumes(MediaTypeNames.Application.Json)]
-    [Produces(MediaTypeNames.Application.Json)]
     public class ApiControllerBase : ControllerBase
     {
         protected Response<TBody> ProduceResponse<TBody>(TBody body)
