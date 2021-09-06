@@ -14,12 +14,8 @@ namespace ReviewService.Api.Helpers
             using var appContext = scope.ServiceProvider.GetRequiredService<ReviewDbContext>();
             try
             {
-                if (!appContext.Reviews.Any())
-                {
-                    appContext.Database.EnsureDeleted();
-                    appContext.Database.EnsureCreated();
-                }
-
+                appContext.Database.EnsureDeleted();
+                appContext.Database.EnsureCreated();
             }
             catch (Exception ex)
             {

@@ -16,11 +16,8 @@ namespace ArticleService.Api.Helpers
             using var appContext = scope.ServiceProvider.GetRequiredService<ArticleDbContext>();
             try
             {
-                if (!appContext.Articles.Any())
-                {
-                    appContext.Database.EnsureDeleted();
-                    appContext.Database.EnsureCreated();
-                }
+                appContext.Database.EnsureDeleted();
+                appContext.Database.EnsureCreated();
             }
             catch (Exception ex)
             {
