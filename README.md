@@ -4,7 +4,7 @@ There are two microservices on this mono repository.
 
 Each microservice has its own database, MSSql used as DB.
 
-###MSSql setup
+# MSSql setup
 ```c#
 open a new terminal 
 
@@ -17,7 +17,7 @@ docker run --name mssql --network kloia-bridge-network -e 'ACCEPT_EULA=Y' -e 'SA
 
 ```
 
-###Create db
+# Create db
 ```c#
 
 #open a new terminal  
@@ -33,7 +33,7 @@ go
 
 exit
 ```
-###Update db
+# Update db
 ```c#
 
 # install EntityFramework cli tool globally
@@ -57,7 +57,7 @@ cd ../../../../
 ```
 At this point we have created and updated our databases
 
-##To run on local machine
+# To run on local machine
 
 ```c#
 
@@ -75,7 +75,7 @@ dotnet run
 
 
 ```
-##To run on docker
+# To run on docker
 
 ```c#
 
@@ -105,6 +105,6 @@ docker run --name reviewmicroservice -p 5011:80 --network kloia-bridge-network r
 
 ```
 
-####There is a Postman Collection Schema on the root directory if needed.
+# There is a Postman Collection Schema on the root directory if needed.
 
 
