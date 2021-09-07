@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "0348533e-854b-4a4d-96b7-bd1e3c72a540",
     "name": "Kloia",
-    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+    "schema": "http://schema.getpostman.com/json/collection/v2.0.0/collection.json"
   },
   "item": [
     {
@@ -11,7 +11,7 @@
       "request": {
         "method": "GET",
         "header": [],
-        "url": "https://localhost:5001/odata/$metadata#Articles"
+        "url": "http://localhost:5001/odata/$metadata#Articles"
       },
       "response": []
     },
@@ -21,7 +21,7 @@
       "request": {
         "method": "GET",
         "header": [],
-        "url": "https://localhost:5011/api/$metadata#Reviews"
+        "url": "http://localhost:5011/api/$metadata#Reviews"
       },
       "response": []
     },
@@ -31,7 +31,7 @@
       "request": {
         "method": "GET",
         "header": [],
-        "url": "https://localhost:5001/odata/Articles"
+        "url": "http://localhost:5001/odata/Articles"
       },
       "response": []
     },
@@ -41,7 +41,7 @@
       "request": {
         "method": "GET",
         "header": [],
-        "url": "https://localhost:5001/odata/Articles(2)"
+        "url": "http://localhost:5001/odata/Articles(2)"
       },
       "response": []
     },
@@ -52,8 +52,8 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "https://localhost:5001/odata/Articles?$filter=Author eq 'Sigmund Freud'",
-          "protocol": "https",
+          "raw": "http://localhost:5001/odata/Articles?$filter=Author eq 'Sigmund Freud'",
+          "protocol": "http",
           "host": [
             "localhost"
           ],
@@ -78,7 +78,7 @@
       "request": {
         "method": "GET",
         "header": [],
-        "url": "https://localhost:5011/odata/Reviews"
+        "url": "http://localhost:5011/odata/Reviews"
       },
       "response": []
     },
@@ -89,8 +89,8 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "https://localhost:5011/odata/Reviews?$filter=ArticleId eq 2",
-          "protocol": "https",
+          "raw": "http://localhost:5011/odata/Reviews?$filter=ArticleId eq 2",
+          "protocol": "http",
           "host": [
             "localhost"
           ],
@@ -115,7 +115,7 @@
       "request": {
         "method": "GET",
         "header": [],
-        "url": "https://localhost:5011/odata/Reviews(2)"
+        "url": "http://localhost:5011/odata/Reviews(2)"
       },
       "response": []
     },
@@ -153,16 +153,11 @@
               "value": "Ana",
               "type": "text"
             }
-          ],
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
+          ]
         },
         "url": {
-          "raw": "https://localhost:5001/api/article/create",
-          "protocol": "https",
+          "raw": "http://localhost:5001/api/article/create",
+          "protocol": "http",
           "host": [
             "localhost"
           ],
@@ -237,8 +232,8 @@
           ]
         },
         "url": {
-          "raw": "https://localhost:5011/api/review/create",
-          "protocol": "https",
+          "raw": "http://localhost:5011/api/review/create",
+          "protocol": "http",
           "host": [
             "localhost"
           ],
@@ -291,8 +286,8 @@
           ]
         },
         "url": {
-          "raw": "https://localhost:5001/api/Article/Delete",
-          "protocol": "https",
+          "raw": "http://localhost:5001/api/Article/Delete",
+          "protocol": "http",
           "host": [
             "localhost"
           ],
@@ -345,8 +340,8 @@
           ]
         },
         "url": {
-          "raw": "https://localhost:5011/api/Review/Delete",
-          "protocol": "https",
+          "raw": "http://localhost:5011/api/Review/Delete",
+          "protocol": "http",
           "host": [
             "localhost"
           ],
@@ -424,8 +419,8 @@
           ]
         },
         "url": {
-          "raw": "https://localhost:5001/api/Article/Update",
-          "protocol": "https",
+          "raw": "http://localhost:5001/api/Article/Update",
+          "protocol": "http",
           "host": [
             "localhost"
           ],
@@ -506,8 +501,8 @@
           ]
         },
         "url": {
-          "raw": "https://localhost:5011/api/Review/Update",
-          "protocol": "https",
+          "raw": "http://localhost:5011/api/Review/Update",
+          "protocol": "http",
           "host": [
             "localhost"
           ],
