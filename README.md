@@ -39,9 +39,6 @@ exit
 # install EntityFramework cli tool globally
 dotnet tool install --global dotnet-ef
 
-# make sure connection string addres the db
-#connectionString="Server=localhost;Database=Articles;User Id=sa;Password=kloia12345!@#$%;"
-
 cd Services/Article/Src/ArticleService.Infrastructure/
 
 dotnet ef database update -c ArticleService.Infrastructure.Context.ArticleDbContext
@@ -79,32 +76,17 @@ dotnet run
 
 ```c#
 
-
-#To access database on a docker network we need to use container name of MSSql
-
-#default-connectionString : "Server=localhost;Database=Articles;User Id=sa;Password=kloia12345!@#$%;"
-#docker-connectionString : "Server=mssql;Database=Articles;User Id=sa;Password=kloia12345!@#$%;"  
-
-#manually change Server parameter value "localhost" to container name "mssql" from all paths below.
-
-#Services/Review/Src/ReviewService.Infrastructure/Context/ReviewDbContext.cs 
-#Services/Article/Src/ArticleService.Infrastructure/Context/ArticleDbContext.cs 
-#Services/Article/Src/ArticleService.Api/appsettings.json
-#Services/Review/Src/ReviewService.Api/appsettings.json
-
 #open a new terminal on the project root directory
 
 docker build -t articlesimage -f Services/Article/Src/ArticleService.Api/Dockerfile .
-docker run --name articlemicroservice -p 5001:80 --network kloia-bridge-network articlesimage
+docker run --name articlemicroservice -p 5001:80 --network kloia-bridge-network -e envConnectionString='Server=mssql;Database=Reviews;User Id=sa;Password=kloia12345!@#$%;' articlesimage
 
 
 #open a new terminal on the project root directory
 
 docker build -t reviewsimage -f Services/Review/Src/ReviewService.Api/Dockerfile .
-docker run --name reviewmicroservice -p 5011:80 --network kloia-bridge-network reviewsimage
+docker run --name reviewmicroservice -p 5011:80 --network kloia-bridge-network -e envConnectionString='Server=mssql;Database=Reviews;User Id=sa;Password=kloia12345!@#$%;' reviewsimage 
 
 ```
 
 # There is a Postman Collection Schema on the root directory if needed.
-
-

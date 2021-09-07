@@ -14,7 +14,14 @@ namespace ArticleService.Infrastructure.Context
         public virtual DbSet<Article> Articles { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=localhost;Database=Articles;User Id=sa;Password=kloia12345!@#$%;");
+            var connectionString = @"Server=localhost;Database=Articles;User Id=sa;Password=kloia12345!@#$%;"; 
+            var envConnectionString = Environment.GetEnvironmentVariable("envConnectionString");
+            if (!string.IsNullOrEmpty(envConnectionString))
+            {
+                connectionString = envConnectionString;
+            }
+
+            optionsBuilder.UseSqlServer(connectionString);
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {

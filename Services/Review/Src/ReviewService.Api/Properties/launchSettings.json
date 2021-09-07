@@ -22,7 +22,8 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DefaultConnection": "Server=localhost;Database=Reviews;User Id=sa;Password=kloia12345!@#$%;"
       },
       "dotnetRunMessages": "true",
       "applicationUrl": "https://localhost:5011;http://localhost:5010"

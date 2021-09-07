@@ -40,9 +40,15 @@ namespace ReviewService.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Review.Api", Version = "v1" });
             });            
+            var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
+            var envConnectionString = Environment.GetEnvironmentVariable("envConnectionString");
+            if (!string.IsNullOrEmpty(envConnectionString))
+            {
+                connectionString = envConnectionString;
+            }
             
             services.AddDbContext<ReviewDbContext>(opt =>
-                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                opt.UseSqlServer(connectionString)
             );
             services.AddHealthChecks().AddDbContextCheck<ReviewDbContext>();
             services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));

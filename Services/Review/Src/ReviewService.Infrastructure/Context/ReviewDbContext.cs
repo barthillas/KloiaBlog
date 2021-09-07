@@ -1,4 +1,5 @@
-﻿using Data.Context;
+﻿using System;
+using Data.Context;
 using Microsoft.EntityFrameworkCore;
 using ReviewService.Domain.Entities;
 
@@ -13,7 +14,14 @@ namespace ReviewService.Infrastructure.Context
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=localhost;Database=Reviews;User Id=sa;Password=kloia12345!@#$%;");
+            var connectionString = @"Server=localhost;Database=Reviews;User Id=sa;Password=kloia12345!@#$%;"; 
+            var envConnectionString = Environment.GetEnvironmentVariable("envConnectionString");
+            if (!string.IsNullOrEmpty(envConnectionString))
+            {
+                connectionString = envConnectionString;
+            }
+
+            optionsBuilder.UseSqlServer(connectionString);
         }
         
         protected override void OnModelCreating(ModelBuilder builder)
