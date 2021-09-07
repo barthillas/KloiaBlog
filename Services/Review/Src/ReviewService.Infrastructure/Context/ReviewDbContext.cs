@@ -13,7 +13,7 @@ namespace ReviewService.Infrastructure.Context
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=mssql;Database=Reviews;User Id=sa;Password=kloia12345!@#$%;");
+            optionsBuilder.UseSqlServer(@"Server=localhost;Database=Reviews;User Id=sa;Password=kloia12345!@#$%;");
         }
         
         protected override void OnModelCreating(ModelBuilder builder)
