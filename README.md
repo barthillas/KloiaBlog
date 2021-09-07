@@ -79,7 +79,7 @@ dotnet run
 #open a new terminal on the project root directory
 
 docker build -t articlesimage -f Services/Article/Src/ArticleService.Api/Dockerfile .
-docker run --name articlemicroservice -p 5001:80 --network kloia-bridge-network -e envConnectionString='Server=mssql;Database=Reviews;User Id=sa;Password=kloia12345!@#$%;' articlesimage
+docker run --name articlemicroservice -p 5001:80 --network kloia-bridge-network -e envConnectionString='Server=mssql;Database=Articles;User Id=sa;Password=kloia12345!@#$%;' articlesimage
 
 
 #open a new terminal on the project root directory
