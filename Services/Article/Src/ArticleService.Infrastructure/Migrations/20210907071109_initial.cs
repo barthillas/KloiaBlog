@@ -27,12 +27,16 @@ namespace ArticleService.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Articles",
                 columns: new[] { "ArticleId", "ArticleContent", "Author", "PublishDate", "StarCount", "Title" },
-                values: new object[] { 1, "Totem und Tabu", "Freud", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), (short)5, null });
-
-            migrationBuilder.InsertData(
-                table: "Articles",
-                columns: new[] { "ArticleId", "ArticleContent", "Author", "PublishDate", "StarCount", "Title" },
-                values: new object[] { 2, "Freud", "Moses and Monotheism", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), (short)5, null });
+                values: new object[,]
+                {
+                    { 1, "Totem und Tabu", "Sigmund Freud", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), (short)5, "Totem und Tabu" },
+                    { 2, "Madde ve Bellek", "Henri Bergson", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), (short)5, "Madde ve Bellek" },
+                    { 3, "Moses and Monotheism", "Sigmund Freud", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), (short)5, "Moses and Monotheism" },
+                    { 4, "Little Prince", "Antoine de saint exupery", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), (short)5, "Little Prince" },
+                    { 5, "Lage de raison", "Jean-Paul Sartre", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), (short)5, "Lage de raison" },
+                    { 6, "ostre sledovane vlaky rozbor", "Bohumil Hrabal", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), (short)5, "ostre sledovane vlaky rozbor" },
+                    { 7, "Ningen Shikkaku", "Osamu Dazai", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), (short)5, "Ningen Shikkaku" }
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

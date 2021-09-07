@@ -24,12 +24,16 @@ namespace ReviewService.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Reviews",
                 columns: new[] { "ReviewId", "ArticleId", "ReviewContent", "Reviewer" },
-                values: new object[] { 1, 1, "OMG perfect!!", "John Doe" });
-
-            migrationBuilder.InsertData(
-                table: "Reviews",
-                columns: new[] { "ReviewId", "ArticleId", "ReviewContent", "Reviewer" },
-                values: new object[] { 2, 1, "OMG perfect!!", "Jane Doe" });
+                values: new object[,]
+                {
+                    { 1, 1, "OMG perfect!!", "John Doe" },
+                    { 2, 2, "OMG perfect!!", "John Doe" },
+                    { 3, 1, "OMG perfect!!", "John Doe" },
+                    { 4, 4, "OMG perfect!!", "John Doe" },
+                    { 5, 5, "OMG perfect!!", "John Doe" },
+                    { 6, 2, "OMG perfect!!", "John Doe" },
+                    { 7, 4, "OMG perfect!!", "Jane Doe" }
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -49,7 +49,42 @@ namespace ReviewService.Infrastructure.Migrations
                         new
                         {
                             ReviewId = 2,
+                            ArticleId = 2,
+                            ReviewContent = "OMG perfect!!",
+                            Reviewer = "John Doe"
+                        },
+                        new
+                        {
+                            ReviewId = 3,
                             ArticleId = 1,
+                            ReviewContent = "OMG perfect!!",
+                            Reviewer = "John Doe"
+                        },
+                        new
+                        {
+                            ReviewId = 4,
+                            ArticleId = 4,
+                            ReviewContent = "OMG perfect!!",
+                            Reviewer = "John Doe"
+                        },
+                        new
+                        {
+                            ReviewId = 5,
+                            ArticleId = 5,
+                            ReviewContent = "OMG perfect!!",
+                            Reviewer = "John Doe"
+                        },
+                        new
+                        {
+                            ReviewId = 6,
+                            ArticleId = 2,
+                            ReviewContent = "OMG perfect!!",
+                            Reviewer = "John Doe"
+                        },
+                        new
+                        {
+                            ReviewId = 7,
+                            ArticleId = 4,
                             ReviewContent = "OMG perfect!!",
                             Reviewer = "Jane Doe"
                         });

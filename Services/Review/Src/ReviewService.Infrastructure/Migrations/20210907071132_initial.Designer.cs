@@ -9,7 +9,7 @@ using ReviewService.Infrastructure.Context;
 namespace ReviewService.Infrastructure.Migrations
 {
     [DbContext(typeof(ReviewDbContext))]
-    [Migration("20210904230707_initial")]
+    [Migration("20210907071132_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,7 +51,42 @@ namespace ReviewService.Infrastructure.Migrations
                         new
                         {
                             ReviewId = 2,
+                            ArticleId = 2,
+                            ReviewContent = "OMG perfect!!",
+                            Reviewer = "John Doe"
+                        },
+                        new
+                        {
+                            ReviewId = 3,
                             ArticleId = 1,
+                            ReviewContent = "OMG perfect!!",
+                            Reviewer = "John Doe"
+                        },
+                        new
+                        {
+                            ReviewId = 4,
+                            ArticleId = 4,
+                            ReviewContent = "OMG perfect!!",
+                            Reviewer = "John Doe"
+                        },
+                        new
+                        {
+                            ReviewId = 5,
+                            ArticleId = 5,
+                            ReviewContent = "OMG perfect!!",
+                            Reviewer = "John Doe"
+                        },
+                        new
+                        {
+                            ReviewId = 6,
+                            ArticleId = 2,
+                            ReviewContent = "OMG perfect!!",
+                            Reviewer = "John Doe"
+                        },
+                        new
+                        {
+                            ReviewId = 7,
+                            ArticleId = 4,
                             ReviewContent = "OMG perfect!!",
                             Reviewer = "Jane Doe"
                         });
