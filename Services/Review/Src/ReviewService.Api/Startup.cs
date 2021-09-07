@@ -64,7 +64,6 @@ namespace ReviewService.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseHttpsRedirection();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
