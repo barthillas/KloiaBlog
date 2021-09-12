@@ -27,5 +27,6 @@ RUN dotnet publish "ReviewService.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+ENV ISDOCKERENV=dockerEnv 
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "ReviewService.Api.dll"]

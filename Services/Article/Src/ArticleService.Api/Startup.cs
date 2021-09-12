@@ -32,9 +32,9 @@ namespace ArticleService.Api
         {
             Configuration = configuration;
         }
-
+        
         private IConfiguration Configuration { get; }
-
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson(options =>
@@ -46,43 +46,19 @@ namespace ArticleService.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Article.Api", Version = "v1" });
             });
 
-            
-            var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
-            var envConnectionString = Environment.GetEnvironmentVariable("envConnectionString");
-            if (!string.IsNullOrEmpty(envConnectionString))
-            {
-                connectionString = envConnectionString;
-            }
-            services.AddDbContext<ArticleDbContext>(opt =>
-                opt.UseSqlServer(connectionString)
-            );
-            
+            services.AddArticleDbContext(Configuration);
+
             services.AddHealthChecks().AddDbContextCheck<ArticleDbContext>();
-            
-            
-            services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
-            
-            
+
             services.AddOData();
-            
+            services.AddODataClient(Configuration);
             
             services.AddCqrs();
+            services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             
-            services.AddMvc(option => option.EnableEndpointRouting = false).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateArticleCommandValidator>());;
-           
-            var oDataSettings = new ODataClientSettings(new Uri(Configuration["ReviewOdataHost:Url"]))
-            {
-                IgnoreResourceNotFoundException = true,
-                OnTrace = (x, y) => Console.WriteLine(string.Format(x, y)),
-            };
-            oDataSettings.BeforeRequest += delegate(HttpRequestMessage message)
-            {
-                message.Headers.Add("InboundRequest", Assembly.GetExecutingAssembly().FullName);
-            };
-            
-            services.AddSingleton(new ODataClient(oDataSettings));
+            services.AddMvc(option => option.EnableEndpointRouting = false)
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateArticleCommandValidator>());
         }
-
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             
@@ -111,6 +87,5 @@ namespace ArticleService.Api
                 endpoints.MapControllers();
             });
         }
-       
     }
 }

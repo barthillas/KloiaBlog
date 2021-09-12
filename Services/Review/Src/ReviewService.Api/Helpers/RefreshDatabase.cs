@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ReviewService.Infrastructure.Context;
@@ -15,6 +15,7 @@ namespace ReviewService.Api.Helpers
             try
             {
                 appContext.Database.EnsureDeleted();
+                appContext.Database.Migrate();
                 appContext.Database.EnsureCreated();
             }
             catch (Exception ex)

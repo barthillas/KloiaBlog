@@ -15,10 +15,10 @@ namespace ReviewService.Infrastructure.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = @"Server=localhost;Database=Reviews;User Id=sa;Password=kloia12345!@#$%;"; 
-            var envConnectionString = Environment.GetEnvironmentVariable("envConnectionString");
-            if (!string.IsNullOrEmpty(envConnectionString))
+            var isDockerEvn = Environment.GetEnvironmentVariable("ISDOCKERENV");
+            if (isDockerEvn != null)
             {
-                connectionString = envConnectionString;
+                connectionString = @"Server=mssql;Database=Reviews;User Id=sa;Password=kloia12345!@#$%;";
             }
 
             optionsBuilder.UseSqlServer(connectionString);

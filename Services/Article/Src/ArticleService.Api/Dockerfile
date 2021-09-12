@@ -28,5 +28,6 @@ RUN dotnet publish "ArticleService.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+ENV ISDOCKERENV=dockerEnv3 
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "ArticleService.Api.dll"]

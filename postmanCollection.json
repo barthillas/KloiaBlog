@@ -2,62 +2,103 @@
   "info": {
     "_postman_id": "0348533e-854b-4a4d-96b7-bd1e3c72a540",
     "name": "Kloia",
-    "schema": "http://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "Articles metadata",
-      "id": "d6a04487-3f2d-4e77-a20c-6983f5fcd6c2",
+      "name": "OData Articles metadata",
       "request": {
         "method": "GET",
         "header": [],
-        "url": "http://localhost:5001/odata/$metadata#Articles"
+        "url": {
+          "raw": "http://localhost:5000/odata/$metadata#Articles",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "odata",
+            "$metadata"
+          ],
+          "hash": "Articles"
+        }
       },
       "response": []
     },
     {
-      "name": "Reviews metadata",
-      "id": "eb2cf23f-74d0-41cf-b7f7-ec2194d71b4b",
+      "name": "OData Reviews metadata",
       "request": {
         "method": "GET",
         "header": [],
-        "url": "http://localhost:5011/api/$metadata#Reviews"
+        "url": {
+          "raw": "http://localhost:5010/odata/$metadata#Reviews",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5010",
+          "path": [
+            "odata",
+            "$metadata"
+          ],
+          "hash": "Reviews"
+        }
       },
       "response": []
     },
     {
-      "name": "ODataGetArticles",
-      "id": "b291b194-8223-49de-bdf4-ab023f5452de",
+      "name": "OData GetArticles",
       "request": {
         "method": "GET",
         "header": [],
-        "url": "http://localhost:5001/odata/Articles"
+        "url": {
+          "raw": "http://localhost:5000/odata/Articles",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "odata",
+            "Articles"
+          ]
+        }
       },
       "response": []
     },
     {
       "name": "ODataGetArticles(2)",
-      "id": "7837c67e-8d6c-416e-8f60-e658b74d2ebe",
       "request": {
         "method": "GET",
         "header": [],
-        "url": "http://localhost:5001/odata/Articles(2)"
+        "url": {
+          "raw": "http://localhost:5000/odata/Articles(2)",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "odata",
+            "Articles(2)"
+          ]
+        }
       },
       "response": []
     },
     {
       "name": "ODataGetArticlesWithFilter",
-      "id": "c489960f-14b3-4380-a33a-c24f9d962cb6",
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:5001/odata/Articles?$filter=Author eq 'Sigmund Freud'",
+          "raw": "http://localhost:5000/odata/Articles?$filter=Author eq 'Sigmund Freud'",
           "protocol": "http",
           "host": [
             "localhost"
           ],
-          "port": "5001",
+          "port": "5000",
           "path": [
             "odata",
             "Articles"
@@ -74,27 +115,36 @@
     },
     {
       "name": "ODataGetReviews",
-      "id": "cebcc529-6f5b-4372-a2bb-1d80fa7518d9",
       "request": {
         "method": "GET",
         "header": [],
-        "url": "http://localhost:5011/odata/Reviews"
+        "url": {
+          "raw": "http://localhost:5010/odata/Reviews",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5010",
+          "path": [
+            "odata",
+            "Reviews"
+          ]
+        }
       },
       "response": []
     },
     {
       "name": "ODataGetReviewsWithFilter",
-      "id": "0738e739-fdd6-48c3-8988-7fb8d92e16c4",
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:5011/odata/Reviews?$filter=ArticleId eq 2",
+          "raw": "http://localhost:5010/odata/Reviews?$filter=ArticleId eq 2",
           "protocol": "http",
           "host": [
             "localhost"
           ],
-          "port": "5011",
+          "port": "5010",
           "path": [
             "odata",
             "Reviews"
@@ -111,17 +161,26 @@
     },
     {
       "name": "ODataGetReviews(2)",
-      "id": "051f50fd-085c-4344-8527-60fcfa0cb20b",
       "request": {
         "method": "GET",
         "header": [],
-        "url": "http://localhost:5011/odata/Reviews(2)"
+        "url": {
+          "raw": "http://localhost:5010/odata/Reviews(2)",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5010",
+          "path": [
+            "odata",
+            "Reviews(2)"
+          ]
+        }
       },
       "response": []
     },
     {
       "name": "CreateArticle",
-      "id": "bad9f87e-81c0-4045-8da6-7bb3b8e6eccb",
       "request": {
         "method": "POST",
         "header": [],
@@ -156,12 +215,12 @@
           ]
         },
         "url": {
-          "raw": "http://localhost:5001/api/article/create",
+          "raw": "http://localhost:5000/api/article/create",
           "protocol": "http",
           "host": [
             "localhost"
           ],
-          "port": "5001",
+          "port": "5000",
           "path": [
             "api",
             "article",
@@ -195,7 +254,6 @@
     },
     {
       "name": "CreateReview",
-      "id": "b5b787ce-dc20-475c-acc5-532df402d0b4",
       "request": {
         "method": "POST",
         "header": [],
@@ -232,12 +290,12 @@
           ]
         },
         "url": {
-          "raw": "http://localhost:5011/api/review/create",
+          "raw": "http://localhost:5010/api/review/create",
           "protocol": "http",
           "host": [
             "localhost"
           ],
-          "port": "5011",
+          "port": "5010",
           "path": [
             "api",
             "review",
@@ -271,7 +329,6 @@
     },
     {
       "name": "DeleteArticle",
-      "id": "d19715bb-05f8-437f-a2e2-d22dfc4e3ce0",
       "request": {
         "method": "DELETE",
         "header": [],
@@ -286,12 +343,12 @@
           ]
         },
         "url": {
-          "raw": "http://localhost:5001/api/Article/Delete",
+          "raw": "http://localhost:5000/api/Article/Delete",
           "protocol": "http",
           "host": [
             "localhost"
           ],
-          "port": "5001",
+          "port": "5000",
           "path": [
             "api",
             "Article",
@@ -325,7 +382,6 @@
     },
     {
       "name": "DeleteReview",
-      "id": "2433996f-ebd3-4ee6-983b-f9528fd836ee",
       "request": {
         "method": "DELETE",
         "header": [],
@@ -340,12 +396,12 @@
           ]
         },
         "url": {
-          "raw": "http://localhost:5011/api/Review/Delete",
+          "raw": "http://localhost:5010/api/Review/Delete",
           "protocol": "http",
           "host": [
             "localhost"
           ],
-          "port": "5011",
+          "port": "5010",
           "path": [
             "api",
             "Review",
@@ -379,7 +435,6 @@
     },
     {
       "name": "UpdateArticle",
-      "id": "0c59db6d-9da2-44e3-a7d1-49c470ac3852",
       "request": {
         "method": "PUT",
         "header": [],
@@ -419,12 +474,12 @@
           ]
         },
         "url": {
-          "raw": "http://localhost:5001/api/Article/Update",
+          "raw": "http://localhost:5000/api/Article/Update",
           "protocol": "http",
           "host": [
             "localhost"
           ],
-          "port": "5001",
+          "port": "5000",
           "path": [
             "api",
             "Article",
@@ -458,7 +513,6 @@
     },
     {
       "name": "UpdateReview",
-      "id": "2e367c56-341b-47aa-b011-46ef0f77792c",
       "request": {
         "method": "PUT",
         "header": [],
@@ -501,12 +555,12 @@
           ]
         },
         "url": {
-          "raw": "http://localhost:5011/api/Review/Update",
+          "raw": "http://localhost:5010/api/Review/Update",
           "protocol": "http",
           "host": [
             "localhost"
           ],
-          "port": "5011",
+          "port": "5010",
           "path": [
             "api",
             "Review",

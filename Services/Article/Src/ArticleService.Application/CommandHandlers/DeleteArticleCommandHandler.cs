@@ -33,13 +33,24 @@ namespace ArticleService.Application.CommandHandlers
                 throw new BusinessException($"Record does not exist. ArticleId: {request.ArticleId} ");
             }
 
-            var reviewsResponse = await _oDataClient
-                .For<ReviewDto>("Review")
-                .Filter(x => x.ArticleId == request.ArticleId).FindEntriesAsync(cancellationToken);
-            
-            if (reviewsResponse.Any(x => x.ArticleId == article.ArticleId) )
+            try
             {
-                throw new BusinessException("It is not possible to delete an article which has reviews");
+                var reviewsResponse = await _oDataClient
+                    .For<ReviewDto>("Review")
+                    .Filter(x => x.ArticleId == request.ArticleId).FindEntriesAsync(cancellationToken);
+
+                if (reviewsResponse.Any(x => x.ArticleId == article.ArticleId))
+                {
+                    throw new BusinessException("It is not possible to delete an article which has reviews");
+                }
+            }
+            catch (BusinessException e)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                throw new BusinessException("Could not find Review Microservice", e);
             }
 
             _unitOfWork.GetRepository<Article>().Remove(article);

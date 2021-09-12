@@ -36,36 +36,24 @@ namespace ReviewService.Api
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Review.Api", Version = "v1" });
-            });            
-            var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
-            var envConnectionString = Environment.GetEnvironmentVariable("envConnectionString");
-            if (!string.IsNullOrEmpty(envConnectionString))
-            {
-                connectionString = envConnectionString;
-            }
+            });
             
-            services.AddDbContext<ReviewDbContext>(opt =>
-                opt.UseSqlServer(connectionString)
-            );
+            services.AddReviewDbContext(Configuration);
             services.AddHealthChecks().AddDbContextCheck<ReviewDbContext>();
-            services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
-            services.AddOData();
-            services.AddCqrs();
-            services.AddMvc(option => option.EnableEndpointRouting = false).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateReviewCommandValidator>());;
-            var oDataSettings = new ODataClientSettings(new Uri(Configuration["ArticleOdataHost:Url"]))
-            {
-                IgnoreResourceNotFoundException = true,
-                OnTrace = (x, y) => Console.WriteLine(string.Format(x, y)),
-            };
             
-            oDataSettings.BeforeRequest += delegate(HttpRequestMessage message)
-            {
-                message.Headers.Add("InboundRequest", Assembly.GetExecutingAssembly().FullName);
-            };
-            services.AddSingleton(new ODataClient(oDataSettings));
+            services.AddOData();
+            services.AddODataClient(Configuration);
+            
+            services.AddCqrs();
+            services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+            
+            services.AddMvc(option => option.EnableEndpointRouting = false)
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateReviewCommandValidator>());;
+            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
