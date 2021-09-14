@@ -26,4 +26,10 @@
       <ProjectReference Include="..\Abstraction\Abstraction.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Certificate\cert.pfx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

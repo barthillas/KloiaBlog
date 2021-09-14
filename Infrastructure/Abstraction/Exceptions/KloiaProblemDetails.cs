@@ -1,25 +1,14 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
 
 namespace Abstraction.Exceptions
 {
-    public class KloiaProblemDetails
+    public class KloiaProblemDetails : BaseProblemDetails
     {
-        [JsonConstructor]
-        public KloiaProblemDetails()
+        public KloiaProblemDetails(Exception ex)
         {
-            Type = GetType().Name;
+            Type = this.GetType();
+            StackTrace = ex.StackTrace;
+            Message = ex.Message;
         }
-
-        public KloiaProblemDetails(string errorCode, string message)
-        {
-            Type = GetType().Name;
-        }
-
-        public string Type { get; set; }
-        public string Title { get; set; }
-        public int Status { get; set; }
-        public string Message { get; set; }
-        public int ErrorCode { get; set; }
-        public string StackTrace { get; set; }
     }
 }

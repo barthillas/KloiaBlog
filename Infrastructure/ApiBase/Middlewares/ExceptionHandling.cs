@@ -34,7 +34,7 @@ namespace ApiBase.Middlewares
             }
             catch (Exception exception)
             {
-                    await context.HandleExceptionAsync(exception ).ConfigureAwait(false);
+                    await context.HandleExceptionAsync(exception).ConfigureAwait(false);
                     _logger.LogError(exception, context.Request.Path); 
             }
         }
