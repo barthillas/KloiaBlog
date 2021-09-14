@@ -1,13 +1,11 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using ReviewService.Api;
 using ReviewService.Application;
 using ReviewService.Infrastructure.Context;
@@ -34,7 +32,7 @@ namespace ReviewService.UnitTest.Tests
                     services.AddDbContext<ReviewDbContext>(options => { options.UseInMemoryDatabase("TestDb"); });
                     services.AddCqrs();
                 });
-            });;
+            });
             
             _client = _factory.CreateClient();
             _client.DefaultRequestHeaders.Add("InboundRequest","test");
@@ -42,26 +40,23 @@ namespace ReviewService.UnitTest.Tests
         
         [Theory]
         [InlineData("api/Review/Create")]
-        public async Task Create_Review_ShouldSuccess(string url)
+        public async Task Create_Review_ShouldReturn500(string url)
         {
             _client.DefaultRequestHeaders.Accept.Clear();
             var multiContent = new MultipartFormDataContent();
-            multiContent.Add(new StringContent( "12"), "ReviewId");
             multiContent.Add(new StringContent( "ReviewContent"), "ReviewContent");
             multiContent.Add(new StringContent( "Reviewer"), "Reviewer");
-            multiContent.Add(new StringContent( "5"), "ArticleId");
+            multiContent.Add(new StringContent( "2"), "ArticleId");
 
             var response = await _client.PostAsync(url, multiContent);
             
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
         
         [Theory]
         [InlineData("api/Review/Create")]
         public async Task Review_Post_ValidationError(string url)
         {
-            var stringContent = new StringContent(JsonConvert.SerializeObject(new { }), Encoding.UTF8, "application/json");
-
             var response = await _client.PostAsync(url, new MultipartFormDataContent());
             
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -73,7 +68,7 @@ namespace ReviewService.UnitTest.Tests
             _client.DefaultRequestHeaders.Accept.Clear();
             var multiContent = new MultipartFormDataContent();
             
-            multiContent.Add(new StringContent( "12"), "ReviewId");
+            multiContent.Add(new StringContent( "3"), "ReviewId");
             multiContent.Add(new StringContent( "ReviewContent"), "ReviewContent");
             multiContent.Add(new StringContent( "Reviewer"), "Reviewer");
             multiContent.Add(new StringContent( "5"), "ArticleId");

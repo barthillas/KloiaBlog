@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Abstraction.DDD;
-using Data.Context;
 using Data.Repositories.Data.Repositories;
 
 namespace Data.UnitOfWork

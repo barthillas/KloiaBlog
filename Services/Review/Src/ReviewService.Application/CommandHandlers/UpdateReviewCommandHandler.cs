@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Abstraction.Exceptions;
 using Abstraction.Handler;
@@ -9,21 +7,17 @@ using ReviewService.Domain.Entities;
 using ReviewService.Infrastructure.Context;
 using Data.UnitOfWork;
 using MediatR;
-using Simple.OData.Client;
-using static System.DateTime;
 
 namespace ReviewService.Application.CommandHandlers
 {
     public class UpdateReviewCommandHandler : ICommandHandler<UpdateReviewCommand, Unit>
     {
         private readonly IUnitOfWork<ReviewDbContext> _unitOfWork;
-        private readonly ODataClient _oDataClient;
         
 
-        public UpdateReviewCommandHandler(IUnitOfWork<ReviewDbContext> unitOfWork, ODataClient oDataClient)
+        public UpdateReviewCommandHandler(IUnitOfWork<ReviewDbContext> unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _oDataClient = oDataClient;
         }
 
         public async Task<Unit> Handle(UpdateReviewCommand request, CancellationToken cancellationToken)

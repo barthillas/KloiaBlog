@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using ApiBase.Controllers;
 using Data.UnitOfWork;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Routing;

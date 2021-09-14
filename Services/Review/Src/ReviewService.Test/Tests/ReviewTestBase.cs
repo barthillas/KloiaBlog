@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Abstraction.Dto;
 using ReviewService.Domain.Entities;
 
-namespace ReviewService.UnitTest.UnitTest
+namespace ReviewService.UnitTest.Tests
 {
     public class ReviewTestBase : TestBase.TestBase
     {

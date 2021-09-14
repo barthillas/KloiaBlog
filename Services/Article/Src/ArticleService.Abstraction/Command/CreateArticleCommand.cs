@@ -1,6 +1,5 @@
 ﻿using Abstraction.Command;
 using Abstraction.Dto;
-using MediatR;
 
 namespace ArticleService.Abstraction.Command
 {

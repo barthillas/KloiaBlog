@@ -9,16 +9,16 @@ namespace ArticleService.UnitTest.Tests
 {
     public class ValidationTests : ArticleTestBase
     {
-        private CreateArticleCommandValidator _createArticleCommandValidator { get; }
-        private UpdateArticleCommandValidator _updateArticleCommandValidator { get; }
-        private DeleteArticleCommandValidator _deleteArticleCommandValidator { get; }
+        private CreateArticleCommandValidator CreateArticleCommandValidator { get; }
+        private UpdateArticleCommandValidator UpdateArticleCommandValidator { get; }
+        private DeleteArticleCommandValidator DeleteArticleCommandValidator { get; }
         
         private readonly Article _article;
         public ValidationTests()
         {
-            _createArticleCommandValidator = new CreateArticleCommandValidator();
-            _updateArticleCommandValidator = new UpdateArticleCommandValidator();
-            _deleteArticleCommandValidator = new DeleteArticleCommandValidator();
+            CreateArticleCommandValidator = new CreateArticleCommandValidator();
+            UpdateArticleCommandValidator = new UpdateArticleCommandValidator();
+            DeleteArticleCommandValidator = new DeleteArticleCommandValidator();
             _article = FakeArticles.First();
         }
         
@@ -35,7 +35,7 @@ namespace ArticleService.UnitTest.Tests
                  StarCount = _article.StarCount,
             };
 
-            _updateArticleCommandValidator.Validate(request).IsValid.Should().BeTrue();
+            UpdateArticleCommandValidator.Validate(request).IsValid.Should().BeTrue();
         }
 
         [Fact]
@@ -49,7 +49,7 @@ namespace ArticleService.UnitTest.Tests
                 StarCount = _article.StarCount,
             };
 
-            _createArticleCommandValidator.Validate(request).IsValid.Should().BeTrue();
+            CreateArticleCommandValidator.Validate(request).IsValid.Should().BeTrue();
         }
 
 
@@ -58,7 +58,7 @@ namespace ArticleService.UnitTest.Tests
         {
             var request = new DeleteArticleCommand(){ArticleId = _article.ArticleId};
 
-            _deleteArticleCommandValidator.Validate(request).IsValid.Should().BeTrue();
+            DeleteArticleCommandValidator.Validate(request).IsValid.Should().BeTrue();
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace ArticleService.UnitTest.Tests
         {
             var request = new UpdateArticleCommand();
 
-            _updateArticleCommandValidator.Validate(request).IsValid.Should().BeFalse();
+            UpdateArticleCommandValidator.Validate(request).IsValid.Should().BeFalse();
         }
 
         [Fact]
@@ -74,7 +74,7 @@ namespace ArticleService.UnitTest.Tests
         {
             var request = new CreateArticleCommand();
 
-            _createArticleCommandValidator.Validate(request).IsValid.Should().BeFalse();
+            CreateArticleCommandValidator.Validate(request).IsValid.Should().BeFalse();
         }
 
 
@@ -83,7 +83,7 @@ namespace ArticleService.UnitTest.Tests
         {
             var request = new DeleteArticleCommand();
 
-            _deleteArticleCommandValidator.Validate(request).IsValid.Should().BeFalse();
+            DeleteArticleCommandValidator.Validate(request).IsValid.Should().BeFalse();
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using ArticleService.Api;
 using ArticleService.Application;
@@ -10,7 +10,6 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace ArticleService.UnitTest.Tests
@@ -34,7 +33,7 @@ namespace ArticleService.UnitTest.Tests
                     services.AddDbContext<ArticleDbContext>(options => { options.UseInMemoryDatabase("TestDb"); });
                     services.AddCqrs();
                 });
-            });;
+            });
             
             _client = _factory.CreateClient();
             _client.DefaultRequestHeaders.Add("InboundRequest","test");
@@ -61,8 +60,6 @@ namespace ArticleService.UnitTest.Tests
         [InlineData("api/Article/Create")]
         public async Task Article_Post_ValidationError(string url)
         {
-            var stringContent = new StringContent(JsonConvert.SerializeObject(new { }), Encoding.UTF8, "application/json");
-
             var response = await _client.PostAsync(url, new MultipartFormDataContent());
             
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -74,7 +71,7 @@ namespace ArticleService.UnitTest.Tests
             _client.DefaultRequestHeaders.Accept.Clear();
             var multiContent = new MultipartFormDataContent();
             
-            multiContent.Add(new StringContent( "100000"), "ArticleId");
+            multiContent.Add(new StringContent( "1"), "ArticleId");
             multiContent.Add(new StringContent( "ArticleContent"), "ArticleContent");
             multiContent.Add(new StringContent( "Author"), "Author");
             multiContent.Add(new StringContent( "12.12.2012"), "PublishDate");
@@ -106,7 +103,7 @@ namespace ArticleService.UnitTest.Tests
             _client.DefaultRequestHeaders.Accept.Clear();
             var multiContent = new MultipartFormDataContent();
             
-            multiContent.Add(new StringContent( "100000"), "ArticleId");
+            multiContent.Add(new StringContent( "1111111"), "ArticleId");
             multiContent.Add(new StringContent( "ArticleContent"), "ArticleContent");
             multiContent.Add(new StringContent( "Author"), "Author");
             multiContent.Add(new StringContent( "12.12.2012"), "PublishDate");
@@ -114,7 +111,7 @@ namespace ArticleService.UnitTest.Tests
             multiContent.Add(new StringContent( "Title"), "Title");
 
             var response = await _client.PutAsync(url, multiContent);
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
         }
 
 

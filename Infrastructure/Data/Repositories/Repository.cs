@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Data.Repositories.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace Data.Repositories
 {

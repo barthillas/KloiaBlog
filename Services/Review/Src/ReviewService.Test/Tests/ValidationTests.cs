@@ -1,27 +1,25 @@
 ﻿using System.Linq;
-using Abstraction.Dto;
 using ReviewService.Abstraction.Command;
 using ReviewService.Abstraction.Validation;
 using FluentAssertions;
 using ReviewService.Domain.Entities;
-using ReviewService.UnitTest.UnitTest;
 using Xunit;
 
 namespace ReviewService.UnitTest.Tests
 {
     public class ValidationTests : ReviewTestBase
     {
-        private CreateReviewCommandValidator _createReviewCommandValidator { get; set; }
-        private UpdateReviewCommandValidator _updateReviewCommandValidator { get; }
-        private DeleteReviewCommandValidator _deleteReviewCommandValidator { get; }
+        private CreateReviewCommandValidator CreateReviewCommandValidator { get; set; }
+        private UpdateReviewCommandValidator UpdateReviewCommandValidator { get; }
+        private DeleteReviewCommandValidator DeleteReviewCommandValidator { get; }
 
         private readonly Review _review;
         
         public ValidationTests()
         {
-            _createReviewCommandValidator = new CreateReviewCommandValidator();
-            _updateReviewCommandValidator = new UpdateReviewCommandValidator();
-            _deleteReviewCommandValidator = new DeleteReviewCommandValidator();
+            CreateReviewCommandValidator = new CreateReviewCommandValidator();
+            UpdateReviewCommandValidator = new UpdateReviewCommandValidator();
+            DeleteReviewCommandValidator = new DeleteReviewCommandValidator();
             _review = FakeReviews.First();
         }
         [Fact]
@@ -34,7 +32,7 @@ namespace ReviewService.UnitTest.Tests
                 ReviewId = _review.ReviewId
             };
 
-            _updateReviewCommandValidator.Validate(request).IsValid.Should().BeTrue();
+            UpdateReviewCommandValidator.Validate(request).IsValid.Should().BeTrue();
         }
 
         [Fact]
@@ -46,7 +44,7 @@ namespace ReviewService.UnitTest.Tests
                 ArticleId = _review.ArticleId
             };
 
-            _createReviewCommandValidator.Validate(request).IsValid.Should().BeTrue();
+            CreateReviewCommandValidator.Validate(request).IsValid.Should().BeTrue();
         }
 
 
@@ -55,7 +53,7 @@ namespace ReviewService.UnitTest.Tests
         {
             var request = new DeleteReviewCommand(){ReviewId = _review.ReviewId};
 
-            _deleteReviewCommandValidator.Validate(request).IsValid.Should().BeTrue();
+            DeleteReviewCommandValidator.Validate(request).IsValid.Should().BeTrue();
         }
 
         [Fact]
@@ -63,7 +61,7 @@ namespace ReviewService.UnitTest.Tests
         {
             var request = new UpdateReviewCommand();
 
-            _updateReviewCommandValidator.Validate(request).IsValid.Should().BeFalse();
+            UpdateReviewCommandValidator.Validate(request).IsValid.Should().BeFalse();
         }
 
         [Fact]
@@ -71,7 +69,7 @@ namespace ReviewService.UnitTest.Tests
         {
             var request = new CreateReviewCommand();
 
-            _createReviewCommandValidator.Validate(request).IsValid.Should().BeFalse();
+            CreateReviewCommandValidator.Validate(request).IsValid.Should().BeFalse();
         }
 
 
@@ -80,7 +78,7 @@ namespace ReviewService.UnitTest.Tests
         {
             var request = new DeleteReviewCommand();
 
-            _deleteReviewCommandValidator.Validate(request).IsValid.Should().BeFalse();
+            DeleteReviewCommandValidator.Validate(request).IsValid.Should().BeFalse();
         }
     }
 }

@@ -38,19 +38,19 @@ namespace ArticleService.Application.CommandHandlers
                 var reviewsResponse = await _oDataClient
                     .For<ReviewDto>("Review")
                     .Filter(x => x.ArticleId == request.ArticleId).FindEntriesAsync(cancellationToken);
-
                 if (reviewsResponse.Any(x => x.ArticleId == article.ArticleId))
                 {
                     throw new BusinessException("It is not possible to delete an article which has reviews");
                 }
+  
             }
-            catch (BusinessException e)
+            catch (BusinessException)
             {
                 throw;
             }
             catch (Exception e)
             {
-                throw new BusinessException("Could not find Review Microservice", e);
+                throw new Exception("Could not find Review Microservice", e);
             }
 
             _unitOfWork.GetRepository<Article>().Remove(article);

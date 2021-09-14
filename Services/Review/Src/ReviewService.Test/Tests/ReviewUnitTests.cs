@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Abstraction.Dto;
@@ -15,7 +14,6 @@ using ReviewService.Abstraction.Command;
 using ReviewService.Api.Controllers;
 using ReviewService.Domain.Entities;
 using ReviewService.Infrastructure.Context;
-using ReviewService.UnitTest.UnitTest;
 using Xunit;
 
 namespace ReviewService.UnitTest.Tests
@@ -109,7 +107,6 @@ namespace ReviewService.UnitTest.Tests
                 .Returns(Task.FromResult(Unit.Value));
              
             _reviewController = new ReviewController(_mediator.Object);
-            var review = FakeReviewDtoList.First();
             var response = await _reviewController.Update(new UpdateReviewCommand()
             {
                 ReviewId = 1

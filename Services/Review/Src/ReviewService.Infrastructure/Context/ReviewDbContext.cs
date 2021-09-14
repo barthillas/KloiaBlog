@@ -7,7 +7,7 @@ namespace ReviewService.Infrastructure.Context
 {
     public class ReviewDbContext : DbContextBase
     {
-        public ReviewDbContext() : base() { }
+        public ReviewDbContext() { }
         public ReviewDbContext(DbContextOptions opts) : base(opts) { }
         
         public virtual DbSet<Review> Reviews { get; set; }

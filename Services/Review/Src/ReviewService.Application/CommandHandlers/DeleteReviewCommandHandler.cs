@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Abstraction.Exceptions;
 using Abstraction.Handler;
@@ -9,20 +7,17 @@ using ReviewService.Domain.Entities;
 using ReviewService.Infrastructure.Context;
 using Data.UnitOfWork;
 using MediatR;
-using Simple.OData.Client;
 
 namespace ReviewService.Application.CommandHandlers
 {
     public class DeleteReviewCommandHandler : ICommandHandler<DeleteReviewCommand, Unit>
     {
         private readonly IUnitOfWork<ReviewDbContext> _unitOfWork;
-        private readonly ODataClient _oDataClient;
         
 
-        public DeleteReviewCommandHandler(IUnitOfWork<ReviewDbContext> unitOfWork, ODataClient oDataClient)
+        public DeleteReviewCommandHandler(IUnitOfWork<ReviewDbContext> unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _oDataClient = oDataClient;
         }
 
         public async Task<Unit> Handle(DeleteReviewCommand request, CancellationToken cancellationToken)

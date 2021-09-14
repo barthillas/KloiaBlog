@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using ApiBase.Controllers;
 using ArticleService.Domain.Entities;
 using ArticleService.Infrastructure.Context;
 using Data.UnitOfWork;

@@ -6,14 +6,13 @@ using Abstraction.DDD;
 using Data.Context;
 using Data.Repositories;
 using Data.Repositories.Data.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace Data.UnitOfWork
 {
     public class UnitOfWork<TContext> : IUnitOfWork<TContext>
         where TContext : DbContextBase 
     {
-        private bool _disposed = false;
+        private bool _disposed;
         private readonly TContext _context;
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
         

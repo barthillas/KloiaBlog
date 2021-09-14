@@ -7,7 +7,6 @@ using ArticleService.Abstraction.Command;
 using ArticleService.Domain.Entities;
 using ArticleService.Infrastructure.Context;
 using Data.UnitOfWork;
-using MediatR;
 using static System.DateTime;
 
 namespace ArticleService.Application.CommandHandlers

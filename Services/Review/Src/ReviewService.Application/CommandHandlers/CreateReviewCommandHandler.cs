@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Abstraction.Dto;
@@ -27,14 +28,27 @@ namespace ReviewService.Application.CommandHandlers
         public async Task<ReviewDto> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
         {
             var review = new Review();
-            var articleResponse = await _oDataClient
-                .For<ArticleDto>("Article")
-                .Filter(x => x.ArticleId == request.ArticleId).FindEntriesAsync(cancellationToken).ConfigureAwait(false);
-            
-            var articleDto = articleResponse as ArticleDto[] ?? articleResponse.ToArray();
-            if (!articleDto.Any()) throw new BusinessException($"Article does not exist. ArticleId: {request.ArticleId}");
+            ArticleDto article;
+            try
+            {
+                var articleResponse = await _oDataClient
+                    .For<ArticleDto>("Article")
+                    .Filter(x => x.ArticleId == request.ArticleId).FindEntriesAsync(cancellationToken)
+                    .ConfigureAwait(false);
+                var articleDtos = articleResponse as ArticleDto[] ?? articleResponse.ToArray();
+                if (!articleDtos.Any())
+                    throw new BusinessException($"Article does not exist. ArticleId: {request.ArticleId}");
+                article = articleDtos[0];
+            }
+            catch (BusinessException ex)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Could not access Review target machine");
+            }
 
-            var article = articleDto.First();
             review.Create(request.ArticleId, request.Reviewer, request.ReviewContent);
             await _unitOfWork.GetRepository<Review>().AddAsync(review, cancellationToken).ConfigureAwait(false);
 

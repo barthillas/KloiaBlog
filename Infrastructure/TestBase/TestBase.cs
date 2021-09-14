@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TestBase
+﻿namespace TestBase
 {
     public class TestBase
     {

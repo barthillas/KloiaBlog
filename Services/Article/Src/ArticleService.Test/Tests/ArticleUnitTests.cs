@@ -112,7 +112,6 @@ namespace ArticleService.UnitTest.Tests
                 .Returns(Task.FromResult(Unit.Value));
              
             _articleController = new ArticleController(_mediator.Object);
-            var article = FakeArticleDtoList.First();
             var response = await _articleController.Update(new UpdateArticleCommand()
             {
                 ArticleId = 1

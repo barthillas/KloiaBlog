@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Abstraction.Command;
 using Data.UnitOfWork;
 using MediatR.Pipeline;
-using ReviewService.Domain.Entities;
 using ReviewService.Infrastructure.Context;
 
 namespace ReviewService.Application.Processors
